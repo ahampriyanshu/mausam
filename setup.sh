@@ -1,5 +1,26 @@
 #!/bin/bash
-#install
+#setup
+#The MIT License (MIT)
+
+#Copyright (c) 2020 Priyanshu Tiwari
+
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
+#furnished to do so, subject to the following conditions:
+
+#The above copyright notice and this permission notice shall be included in all
+#copies or substantial portions of the Software.
+
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#SOFTWARE.
 
 Reset='\033[0m'       # Text Reset
 
@@ -66,20 +87,99 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
-echo ""
-	echo -e "${Yellow} ========================================================= "
-	echo " |                                                       | "
-	echo " |           Installation Script in Bash                 | "
-	echo " |                 ahampriyanshu                         | "
-	echo " |                                                       | "
-	echo " ========================================================= "
-	echo ""
-	echo -e "${UGreen}https://www.ahampriyanshu.github.io"
-	echo "ahampriyanshu@gmail.com"
-	echo -e "${Reset}"
-echo -e "${BPurple} Enter your choice [vlc,chrome,chromium,lamp,firefox,brave,vim,pip] ?${Reset}"
 
-read input
+progressbar() {
+  local duration
+  local columns
+  local space_available
+  local fit_to_screen  
+  local space_reserved
+
+  space_reserved=6
+  duration=20
+  columns=$(tput cols)
+  space_available=$(( columns-space_reserved ))
+
+  if (( duration < space_available )); then 
+  	fit_to_screen=1; 
+  else 
+    fit_to_screen=$(( duration / space_available )); 
+    fit_to_screen=$((fit_to_screen+1)); 
+  fi
+
+  already_done() { for ((done=0; done<(elapsed / fit_to_screen) ; done=done+1 )); do printf "▇"; done }
+  remaining() { for (( remain=(elapsed/fit_to_screen) ; remain<(duration/fit_to_screen) ; remain=remain+1 )); do printf " "; done }
+  percentage() { printf "| %s%%" $(( ((elapsed)*100)/(duration)*100/100 )); }
+  clean_line() { printf "\r"; }
+
+  for (( elapsed=1; elapsed<=duration; elapsed=elapsed+1 )); do
+      already_done; remaining; percentage
+      sleep 0.1
+      clean_line
+  done
+  clean_line
+}
+
+countdown() {
+  secs=$1
+  shift
+  msg=$@
+  while [ $secs -gt 0 ]
+  do
+    printf "\r\033[K$msg in %.d seconds" $((secs--))
+    sleep 1
+  done
+  echo
+}
+
+pause(){
+	local m="$@"
+	echo "$m"
+	read -p "Press [Enter] key to continue..." key
+}
+
+ubuntu(){
+
+cat /etc/lsb-release
+countdown 5 Installation starting
+while :
+do
+
+	clear
+	echo "---------------------------------"
+	echo "	  Installation Menu            "
+	echo "---------------------------------"
+	echo "1. Clang"
+	echo "2. VS Code"
+	echo "3. Sublime Text"
+	echo "4. Libre Office"
+	echo "5. LAMP Stack"
+	echo "6. MEAN Stack"
+	echo "7. NodeJS"
+	echo "8. Golang"
+	echo "9. Virtual Box"
+	echo "10. qBittorrent"
+	echo "11. Kazam"
+	echo "12. Chrome"
+	echo "13. Chromium"
+	echo "14. Mozilla Firefox"
+	echo "15. Brave"
+	echo "16. VLC"
+	echo "17. Vim"
+	echo "q. Exit"
+	echo "---------------------------------"
+	read -r -p "Enter your choice [1-5] : " c
+	# take action
+	case $c in
+		1) pause "$(date)";;
+	esac
+done
+
+	while true
+do
+	echo -e "${BPurple} Enter your choice [vlc,chrome,chromium,lamp,firefox,brave,vim,pip] ?${Reset}"
+	read input
+
 
 if [ $input == "lamp" ]; then
 	echo "Installing Apache2"
@@ -153,5 +253,27 @@ else
 
 	echo -e "${BGreen}Quiting ..."
 	echo "Tschüss"
+	break;
 
 fi
+
+done
+}
+
+echo ""
+echo -e "${Yellow} ========================================================= "
+echo " |                                                       | "
+echo " |           Installation Script in Bash                 | "
+echo " |               by ahampriyanshu                        | "
+echo " |                                                       | "
+echo " ========================================================= "
+echo ""
+echo -e "${UGreen}https://ahampriyanshu.github.io"
+echo "ahampriyanshu@gmail.com"
+echo -e "${Reset}"
+
+progressbar
+
+echo ""
+
+test -f /etc/lsb-release && ubuntu || echo "Oh No! looks like you are using some distro other than Ubuntu"
