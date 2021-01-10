@@ -132,6 +132,7 @@ countdown() {
 }
 
 displayInfo(){
+    echo ""
     echo -e "${IGreen}---------------------------------"
     echo "      Distro Information           "
     echo "---------------------------------"
@@ -148,17 +149,40 @@ displayInfo(){
 }
 
 helpme(){
-    echo -e "${IGreen}|---------------------------------------|"
+    echo -e "${IBlue}|=======================================|"
     echo    "|  Would you mind helping me, please?   |"
-    echo    "|---------------------------------------|"
+    echo    "|=======================================|"
+    echo -e "${Reset}"
+
+    case $1 in
+            1)
     echo -e "${IRed}Your OS isn't supported yet"
     echo "You can contribute and make this script even better"
     echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
     echo -e "${Reset}"
+            ;;
+            
+            2)
+    echo -e "${IRed}Sorry! We couldn't recognize your OS"
+    echo "Please kindly report this issue."
+    echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101/issues/new"
+    echo -e "${Reset}"
+            ;;
+            
+            3)
+    echo -e "${IRed}This installation isn't supported yet"
+    echo "You can contribute and make this script even better"
+    echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
+    echo -e "${Reset}"
+            ;;
+            
+            *) echo "Wow! You have reached a new milestone"
+        esac
 }
 
 start(){
-    echo -e "${IGreen}Installing latest version of Clang"
+    echo ""
+    echo -e "${IGreen}Installing latest version of $1"
     echo -e "${Reset}"
 }
 
@@ -168,6 +192,11 @@ check(){
         echo -e "${IGreen}Installation completed"
     else
         echo -e "${IRed}Installation failed"
+        echo -e "${IRed}Some error occured during installation or installation was aborted manually"
+    echo "Please check your internet connection or system conf and then retry"
+    echo "If the error still continues please kindly report the issue"
+    echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101/issues/new"
+    echo -e "${Reset}"
     fi
     echo -e "${Reset}"
     sleep 3
@@ -175,18 +204,43 @@ check(){
 
 mac(){
     displayInfo 1 $1
-    helpme
+    helpme 1
+}
+
+slackware(){
+    displayInfo 0 $1
+    helpme 1
+}
+
+mandriva(){
+    displayInfo 0 $1
+    helpme 1
+}
+
+suse(){
+    displayInfo 0 $1
+    helpme 1
+}
+
+gentoo(){
+    displayInfo 0 $1
+    helpme 1
+}
+
+fedora(){
+    displayInfo 0 $1
+    helpme 1
 }
 
 debian(){
     
     displayInfo 0 $1
-    
     countdown 3 Installation starting
     
     while :
     do
         clear
+        echo ""
         echo -e "${IWhite}---------------------------------"
         echo "      Installation Menu            "
         echo "---------------------------------"
@@ -211,29 +265,29 @@ debian(){
         echo "19. Gnome-tweaks"
         echo "20. Pycharm"
         echo "21. Anaconda"
-        echo "21. uGet"
-        echo "22. Signal Messenger"
-        echo "23. Telegram"
-        echo "24. Discord"
-        echo "25. GIMP"
-        echo "26. Inkscape"
-        echo "27. Git"
+        echo "22. uGet"
+        echo "23. Signal Messenger"
+        echo "24. Telegram"
+        echo "25. Discord"
+        echo "26. GIMP"
+        echo "27. Inkscape"
+        echo "28. Git"
+        echo "29. NGNIX"
+        echo "30. Krita"
         echo -e "Enter ${URed}quit${Reset} or ${URed}Ctrl+C${Reset} to exit"
         echo "============================"
-        read -r -p "Enter your choice [1-25] : " c
+        read -r -p "Enter your choice [1-30] : " c
         
         case $c in
             1)
-                echo -e "${IGreen}Installing latest version of Clang"
-                echo -e "${Reset}"
+                start "Clang"
                 sudo apt install clang
                 check $?
                 
             ;;
             
             2)
-                echo -e "${IGreen}Installing latest version of VS Code"
-                echo -e "${Reset}"
+                start "VS Code"
                 sudo apt install software-properties-common apt-transport-https wget
                 wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
                 sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
@@ -243,9 +297,7 @@ debian(){
             ;;
             
             3)
-                echo -e "${IGreen}Installing latest version of Sublime Text"
-                echo -e "${Reset}"i
-                
+                start "Sublime Text"
                 sudo apt install apt-transport-https ca-certificates curl software-properties-common
                 curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
                 sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
@@ -255,19 +307,15 @@ debian(){
             ;;
             
             4)
-                echo -e "${IGreen}Installing latest version of Libre Office"
-                echo -e "${Reset}"
+                start "Libre Office"
                 sudo add-apt-repository ppa:libreoffice/ppa
                 sudo apt update
                 sudo apt install libreoffice
-                
-                
                 check $?
             ;;
             
             5)
-                echo -e "${IGreen}Installing latest version of LAMP"
-                echo -e "${Reset}"
+                start "LAMP Stack"
                 echo "Installing Apache2"
                 sudo apt update
                 sudo apt install apache2 -y
@@ -298,21 +346,19 @@ debian(){
             ;;
             
             6)
-                echo -e "${IGreen}Installing MongoDB ]"
-                echo -e "${Reset}"
-                sudo apt-get install gnupg -y
+                start "MEAN Stack"
+                sudo apt install gnupg -y
                 wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
                 sudo apt update
                 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
-                sudo apt-get install -y mongodb-org
+                sudo apt install -y mongodb-org
                 sudo systemctl start mongod
                 service mongod status
                 echo "MEAN stack Installed"
             ;;
             
             7)
-                echo -e "${IGreen}Installing NodeJS "
-                echo -e "${Reset}"
+                start "NodeJS"
                 curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash –
                 sudo apt install -y nodejs
                 sudo apt install build-essential
@@ -320,8 +366,7 @@ debian(){
             ;;
             
             8)
-                echo -e "${IGreen}Installing latest version of Golang"
-                echo -e "${Reset}"
+                start "Go"
                 wget https://golang.org/dl/go1.15.6.linux-amd64.tar.gz
                 tar -C /usr/local -xzf go1.15.6.linux-amd64.tar.gz
                 export PATH=$PATH:/usr/local/go/bin
@@ -329,8 +374,7 @@ debian(){
             ;;
             
             9)
-                echo -e "${IGreen}Installing latest version of Virtual Box"
-                echo -e "${Reset}"
+                start "Virtual Box"
                 sudo apt update
                 sudo apt install virtualbox
                 sudo apt install virtualbox—ext–pack
@@ -338,79 +382,68 @@ debian(){
             ;;
             
             10)
-                echo -e "${IGreen}Installing latest version of Kazam"
-                echo -e "${Reset}"
+                start "Kazam"
                 sudo apt install kazam
                 check $?
             ;;
             
             11)
-                echo -e "${IGreen}Installing latest version of qBittorrent"
-                echo -e "${Reset}"
+                start "qBitorrent"
                 sudo apt install qbittorrent
                 check $?
             ;;
             
             
             12)
-                echo -e "${IGreen}Installing latest version of Chrome"
-                echo -e "${Reset}"
+                start "Chrome"
                 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
                 sudo dpkg -i google-chrome-stable_current_amd64.deb
                 check $?
             ;;
             
             13)
-                echo -e "${IGreen}Installing latest version of Chromium"
-                echo -e "${Reset}"
+                start "Chromium"
                 sudo apt install -y chromium-browser
             check $?;;
             
             
             14)
-                echo -e "${IGreen}Installing latest version of firefox"
-                echo -e "${Reset}"
+                start "Firefox"
                 sudo apt install -y firefox
             check $?;;
             
             15)
-                echo -e "${IGreen}Installing latest version of Brave"
-                echo "But firstly installling the prequisites"
-                echo -e "${Reset}"
+                start "Brave"
                 sudo apt install apt-transport-https curl
                 curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
                 echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+                check $?
             ;;
             
             16)
-                echo -e "${IGreen}Installing latest version of VLC"
-                echo -e "${Reset}"
+                start "VLC"
                 sudo apt install vlc
             check $?;;
             
             17)
-                echo -e "${IGreen}Installing latest version of VIM"
-                echo -e "${Reset}"
+                start "VIM"
                 sudo apt install vim
             check $?;;
             
             18)
-                echo -e "${IGreen}Installing latest version of EMACS"
-                echo -e "${Reset}"
+                start "EMACS"
                 sudo add-apt-repository ppa:kelleyk/emacs
                 sudo apt update
                 sudo apt install emacsVERSION
             check $?;;
             
             19)
-                echo -e "${IGreen}Installing latest version of gnome-tweaks"
-                echo -e "${Reset}"
+                start "gnome tweaks"
                 sudo apt install gnome-tweaks
             check $?;;
             
             20)
-                echo -e "${IGreen}Installing latest version of pyCharm"
-                echo -e "${Reset}"
+                start "pyCharm"
                 wget -q https://download.jetbrains.com/python/pycharm-community-2020.3.2.tar.gz?_ga=2.51716457.1746728834.1610096895-1594661800.1610096895
                 tar -xzf pycharm-community-2020.1.1.tar.gz
                 cd pycharm-community-2020.1.1
@@ -419,8 +452,7 @@ debian(){
             check $?;;
             
             21)
-                echo -e "${IGreen}Installing latest version of Conda"
-                echo -e "${Reset}"
+                start "Anaconda"
                 cd /tmp
                 curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
                 bash Anaconda3-2019.03-Linux-x86_64.sh
@@ -428,14 +460,14 @@ debian(){
             check $?;;
             
             22)
-                echo -e "${IGreen}Installing latest version of uGet"
-                echo -e "${Reset}"
-                
+                start "uGet"
+                sudo add-apt-repository ppa:plushuang-tw/uget-stable
+                sudo apt update
+                sudo apt install uget
             check $?;;
             
             23)
-                echo -e "${IGreen}Installing latest version of Signal"
-                echo -e "${Reset}"
+                start "Signal"
                 wget -O- https://updates.signal.org/desktop/apt/keys.asc |\
                 sudo apt-key add -
                 echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" |\
@@ -445,22 +477,66 @@ debian(){
             
             
             24)
-                echo -e "${IGreen}Installing latest version of Conda"
-                echo -e "${Reset}"
-                
+                start "Telegram"
+                wget -O- https://telegram.org/dl/desktop/linux | sudo tar xJ -C /opt/
+                sudo ln -s /opt/Telegram/Telegram /usr/local/bin/telegram-desktop
             check $?;;
             
             25)
-                echo -e "${IGreen}Installing latest version of Conda"
-                echo -e "${Reset}"
+                start "Discord"
+                sudo apt update
+                $ sudo apt install gdebi-core wget
+                sudo gdebi ~/discord.deb -y
                 
+            check $?;;
+            
+            26)
+                start "GIMP"
+                sudo add-apt-repository ppa:otto-kesselgulasch/gimp
+                sudo apt update
+                sudo apt install gimp
+                
+            check $?;;
+            
+            27)
+                start "Inkscape"
+                sudo add-apt-repository ppa:inkscape.dev/stable
+                sudo apt update
+                sudo apt install inkscape
+            check $?;;
+            
+            28)
+                start "Git"
+                sudo apt install git-all
+            check $?;;
+            
+            29)
+                start "Ngnix"
+                sudo apt update
+                sudo apt install nginx
+
+                echo "Adjusting Firewall"
+                sudo ufw allow 'Nginx HTTP'
+
+                echo "Enabling Ngnix"
+                systemctl enable nginx
+                systemctl restart nginx
+                systemctl status nginx
+            check $?;;
+            
+            30)
+                start "Krita"
+                sudo add-apt-repository ppa:kritalime/ppa
+                sudo apt update
+                sudo apt-get install krita
             check $?;;
             
             quit)
                 echo -e "${BGreen}Quiting ..."
                 echo "Bye"
             break;;
-            *) Pause "Select between 1 to 21 only"
+            
+            *) Pause "Select between 1 to 30 only"
         esac
     done
 }
@@ -481,7 +557,6 @@ echo -e "${Reset}"
 progressbar
 echo ""
 
-
 if [ -f /etc/lsb-release ]; then debian "/etc/lsb-release"
     elif [ -f /etc/debian_version ]; then debian "/etc/debian_version"
     elif [ -f /etc/fedora-release ]; then fedora "/etc/fedora-release"
@@ -492,5 +567,5 @@ if [ -f /etc/lsb-release ]; then debian "/etc/lsb-release"
     elif [ -f /etc/slackware-version ]; then slackware "/etc/slackware-version"
     elif [ -f /etc/mandriva-release ]; then mandriva "/etc/mandriva-release"
     elif system_profiler SPSoftwareDataType; then mac "system_profiler SPSoftwareDataType"
-else helpme
+else helpme 2
 fi
