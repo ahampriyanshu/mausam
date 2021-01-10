@@ -141,36 +141,7 @@ echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
 echo -e "${Reset}"
 }
 
-mac(){
-echo -e "${IGreen}---------------------------------"
-echo "      Distro Information           "
-echo "---------------------------------"
-echo ""
-system_profiler SPSoftwareDataType
-echo -e "${Reset}"
-
-helpme
-}
-
-kali(){
-echo -e "${IGreen}---------------------------------"
-echo "      Distro Information           "
-echo "---------------------------------"
-echo ""
-cat /etc/debian_version
-echo -e "${Reset}"
-
-helpme
-}
-
-ubuntu(){
-
-echo -e "${IGreen}---------------------------------"
-echo "      Distro Information           "
-echo "---------------------------------"
-echo ""
-cat /etc/lsb-release
-echo -e "${Reset}"
+process(){
 
 countdown 3 Installation starting
 
@@ -190,8 +161,8 @@ echo "6. MEAN Stack"
 echo "7. NodeJS"
 echo "8. Golang"
 echo "9. Virtual Box"
-echo "10. qBittorrent"
-echo "11. Kazam"
+echo "10. Kazam"
+echo "11. qBittorrent"
 echo "12. Chrome"
 echo "13. Chromium"
 echo "14. Mozilla Firefox"
@@ -228,7 +199,7 @@ echo -e "${IGreen}Installation completed"
 
 3)
 echo -e "${IGreen}Installing latest version of Sublime Text"
-echo -e "${Reset}"
+echo -e "${Reset}"i
 
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
 curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
@@ -269,8 +240,8 @@ echo "Installing PHP"
 sudo apt install php libapache2-mod-php php-mcrypt php-mysql -y
 
 echo "Inastalling phpmyadmin..."
-sudo apt-get update
-sudo apt-get install phpmyadmin php-mbstring php-gettext
+sudo apt update
+sudo apt install phpmyadmin php-mbstring php-gettext
 sudo phpenmod mcrypt
 sudo phpenmod mbstring
 sudo systemctl restart apache2
@@ -291,19 +262,15 @@ echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb
 sudo apt-get install -y mongodb-org
 sudo systemctl start mongod
 service mongod status
+echo "MEAN stack Installed"
+;;
 
+7)
 echo -e "${IGreen}Installing NodeJS "
 echo -e "${Reset}"
 curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash –
 sudo apt install -y nodejs
 sudo apt install build-essential
-
-echo "MEAN stack Installed";;
-
-7)
-echo -e "${IGreen}Installing latest version of fffff"
-echo -e "${Reset}"
-
 echo -e "${IGreen}Installation completed"
 ;;
 
@@ -319,9 +286,9 @@ echo -e "${IGreen}Installation completed"
 9)
 echo -e "${IGreen}Installing latest version of Virtual Box"
 echo -e "${Reset}"
-sudo apt-get update
-sudo apt-get install virtualbox
-sudo apt-get install virtualbox—ext–pack
+sudo apt update
+sudo apt install virtualbox
+sudo apt install virtualbox—ext–pack
 echo -e "${IGreen}Installation completed"
 ;;
 
@@ -373,20 +340,20 @@ echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable ma
 16)
 echo -e "${IGreen}Installing latest version of VLC"
 echo -e "${Reset}"
-sudo apt-get install vim
+sudo apt install vlc
 echo -e "${IGreen}Installation completed";;
 
 17)
 echo -e "${IGreen}Installing latest version of VIM"
 echo -e "${Reset}"
-sudo apt-get install vim
+sudo apt install vim
 echo -e "${IGreen}Installation completed";;
 
 18)
 echo -e "${IGreen}Installing latest version of EMACS"
 echo -e "${Reset}"
 sudo add-apt-repository ppa:kelleyk/emacs
-sudo apt-get update
+sudo apt update
 sudo apt install emacsVERSION
 echo -e "${IGreen}Installation completed";;
 
@@ -424,6 +391,40 @@ break;;
 esac
 done
 
+}
+
+mac(){
+echo -e "${IGreen}---------------------------------"
+echo "      Distro Information           "
+echo "---------------------------------"
+echo ""
+system_profiler SPSoftwareDataType
+echo -e "${Reset}"
+
+helpme
+}
+
+kali(){
+echo -e "${IGreen}---------------------------------"
+echo "      Distro Information           "
+echo "---------------------------------"
+echo ""
+cat /etc/debian_version
+echo -e "${Reset}"
+
+process
+}
+
+ubuntu(){
+
+echo -e "${IGreen}---------------------------------"
+echo "      Distro Information           "
+echo "---------------------------------"
+echo ""
+cat /etc/lsb-release
+echo -e "${Reset}"
+
+process
 }
 
 echo ""
