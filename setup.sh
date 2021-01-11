@@ -156,45 +156,45 @@ helpme(){
 
     case $1 in
             1)
-    echo -e "${IRed}Your OS isn't supported yet"
-    echo "You can contribute and make this script even better"
+    echo -e "${IRed}Your OS isn't supported yet."
+    echo "But you can contribute in making this script even better!"
     echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
     echo -e "${Reset}"
             ;;
             
             2)
-    echo -e "${IRed}Sorry! We couldn't recognize your OS"
-    echo "Please kindly report this issue."
+    echo -e "${IRed}Sorry! We couldn't recognize your OS."
+    echo "Please report this issue."
     echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101/issues/new"
     echo -e "${Reset}"
             ;;
             
             3)
-    echo -e "${IRed}This installation isn't supported yet"
-    echo "You can contribute and make this script even better"
+    echo -e "${IRed}This installation isn't supported yet."
+    echo "But you can contribute in making this script even better!"
     echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
     echo -e "${Reset}"
             ;;
             
-            *) echo "Wow! You have reached a new milestone"
+            *) echo "Wow! You have reached a new milestone."
         esac
 }
 
 start(){
     echo ""
-    echo -e "${IGreen}Installing latest version of $1"
+    echo -e "${IGreen}Installing latest version of $1."
     echo -e "${Reset}"
 }
 
 check(){
     echo ""
     if [ $1 -eq 0 ]; then
-        echo -e "${IGreen}Installation completed"
+        echo -e "${IGreen}Installation complete."
     else
-        echo -e "${IRed}Installation failed"
-        echo -e "${IRed}Some error occured during installation or installation was aborted manually"
-    echo "Please check your internet connection or system conf and then retry"
-    echo "If the error still continues please kindly report the issue"
+        echo -e "${IRed}Installation failed!"
+        echo -e "${IRed}Some error occurred during installation or installation was aborted manually."
+    echo "Please check your internet connection or system conf and then retry."
+    echo "If the error persists, please report the issue."
     echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101/issues/new"
     echo -e "${Reset}"
     fi
@@ -235,7 +235,7 @@ fedora(){
 debian(){
     
     displayInfo 0 $1
-    countdown 3 Installation starting
+    countdown 3 Installation starting...
     
     while :
     do
@@ -340,7 +340,7 @@ debian(){
                 sudo systemctl restart apache2
                 
                 sudo systemctl start apache2
-                echo "Installation completed"
+                echo "Installation complete"
                 sudo systemctl status apache2
                 check $?
             ;;
@@ -354,7 +354,7 @@ debian(){
                 sudo apt install -y mongodb-org
                 sudo systemctl start mongod
                 service mongod status
-                echo "MEAN stack Installed"
+                echo "MEAN stack Installed."
             ;;
             
             7)
@@ -536,7 +536,7 @@ debian(){
                 echo "Bye"
             break;;
             
-            *) Pause "Select between 1 to 30 only"
+            *) Pause "Select between 1 to 30 only."
         esac
     done
 }
