@@ -1,28 +1,6 @@
 #!/bin/bash
-#setup
-#The MIT License (MIT)
 
-#Copyright (c) 2020 Priyanshu Tiwari
-
-#Permission is hereby granted, free of charge, to any person obtaining a copy
-#of this software and associated documentation files (the "Software"), to deal
-#in the Software without restriction, including without limitation the rights
-#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the Software is
-#furnished to do so, subject to the following conditions:
-
-#The above copyright notice and this permission notice shall be included in all
-#copies or substantial portions of the Software.
-
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-#SOFTWARE.
-
-Reset='\033[0m'       # Text Reset
+Reset='\033[0m'           # Text Reset
 
 Black='\033[0;30m'        # Black
 Red='\033[0;31m'          # Red
@@ -140,6 +118,12 @@ countdown() {
     done
 }
 
+quit(){
+    echo -e "${BGreen}Quiting ..."
+    echo "Bye"
+    exit;
+}
+
 displayInfo(){
     echo ""
     echo -e "${IGreen}---------------------------------"
@@ -155,6 +139,8 @@ displayInfo(){
     fi
     
     echo -e "${Reset}"
+    # countdown 3 Installation starting
+    main_menu $3 ${menu[@]}
 }
 
 helpme(){
@@ -213,13 +199,6 @@ check(){
 
 chrome(){
 echo "hello"
-}
-
-essential(){
-start "Clang"
-sudo apt install clang
-check $?
-
 }
 
 firefox(){
@@ -286,60 +265,84 @@ uget(){
 echo "hello"
 }
 
-
-
-show_menu(){
+sub_menu(){
 array=("$@")
 total=${#array[*]}
-    while :
-    do
+while :
+do
+
+clear
+
 for (( i=1; i<=$(( $total - 1 )); i++ ))
 do 
     echo -e "${LYellow}$i) ${LBlue}${array[$i]}"
 done
-read -r -p "Enter your choice [1-30] : " c
-${array[$c]}
+
+read -p "Enter your choice [1-$(($total - 1))] : " input
+
+for elem in ${input[@]}
+do 
+${array[$elem]} ${array[0]}
+done
+
 done
 }
 
-mac(){
-    displayInfo 1 $1
-    helpme 1
+main_menu(){
+array=("$@")
+total=${#array[*]}
+while :
+do
+
+
+
+for (( i=1; i<=$(( $total - 1 )); i++ ))
+do 
+    echo -e "${LYellow}$i) ${LBlue}${array[$i]}"
+done
+
+read -r -p "Enter your choice [1-$(($total - 1))] : " input
+if [ "$input" -ge 1 ] && [ "$input" -lt $total ]; then
+sub=${array[$input]}[@];
+sub_menu ${array[0]} ${!sub};
+elif [[ $input = "q" ]] || [[ $input = "Q" ]] ; then quit
+else clear ;
+fi
+
+
+done
 }
 
-slackware(){
-    displayInfo 0 $1
-    helpme 1
-}
+# mac(){
+#     displayInfo 1 $1
+#     helpme 1
+# }
 
-mandriva(){
-    displayInfo 0 $1
-    helpme 1
-}
+# slackware(){
+#     displayInfo 0 $1
+#     helpme 1
+# }
 
-suse(){
-    displayInfo 0 $1
-    helpme 1
-}
+# mandriva(){
+#     displayInfo 0 $1
+#     helpme 1
+# }
 
-gentoo(){
-    displayInfo 0 $1
-    helpme 1
-}
+# suse(){
+#     displayInfo 0 $1
+#     helpme 1
+# }
 
-fedora(){
-    displayInfo 0 $1
-    helpme 1
-}
+# gentoo(){
+#     displayInfo 0 $1
+#     helpme 1
+# }
 
-debian(){
-    
-    # displayInfo 0 $1
-    # countdown 3 Installation starting
-    
+# fedora(){
+#     displayInfo 0 $1
+#     helpme 1
+# }
 
-        clear
-        show_menu debian ${menu[@]}
         # echo ""
         # echo -e "${IWhite}---------------------------------"
         # echo "      Installation Menu            "
@@ -650,13 +653,11 @@ debian(){
         #     *) Pause "Select between 1 to 30 only."
         # esac
     
-}
 
 echo ""
 echo -e "${ICyan} ========================================================= "
 echo " |                                                       | "
 echo " |           Installation Script in Bash                 | "
-echo " |               by ahampriyanshu                        | "
 echo " |                                                       | "
 echo " ========================================================= "
 echo ""
@@ -666,9 +667,10 @@ echo -e "${Reset}"
 echo -e "${BYellow}Detecting System Configuration"
 echo -e "${Reset}"
 # progressbar
-echo ""
+echo "" 
+        
 
-if [ -f /etc/lsb-release ]; then debian "/etc/lsb-release"
+if [ -f /etc/lsb-release ]; then displayInfo 0 "/etc/lsb-release" debian 
     elif [ -f /etc/debian_version ]; then debian "/etc/debian_version"
     elif [ -f /etc/fedora-release ]; then fedora "/etc/fedora-release"
     elif [ -f /etc/redhat-release ]; then fedora "/etc/redhat-release"
