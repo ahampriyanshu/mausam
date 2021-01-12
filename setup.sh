@@ -87,6 +87,15 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
+LBlue='\033[36m'
+LYellow='\033[33m'
+
+menu=( essential ide web utilities multimedia )
+essential=( wget curl git pip npm go nodejs nvm )
+ide=( vscode sublimetext vim emacs gvim pycharm intellij )
+web=( LAMP MEAN apache ngnix phpmyadmin chrome chromium brave firefox )
+utilities=( libreoffice uget qBitorrent krita inkscape gimp telegram discord signal )
+multimedia=( vlc gragonplayer kdenlive )
 
 progressbar() {
     local duration
@@ -202,6 +211,97 @@ check(){
     sleep 3
 }
 
+chrome(){
+echo "hello"
+}
+
+essential(){
+start "Clang"
+sudo apt install clang
+check $?
+
+}
+
+firefox(){
+echo "hello"
+}
+
+chromium(){
+echo "hello"
+}
+
+brave(){
+echo "hello"
+}
+
+firefox(){
+echo "hello"
+}
+
+vlc(){
+echo "hello"
+}
+
+vim(){
+echo "hello"
+}
+
+emacs(){
+echo "hello"
+}
+
+lamp(){
+echo "hello"
+}
+
+mean(){
+echo "hello"
+}
+
+nginx(){
+echo "hello"
+}
+
+apache(){
+echo "hello"
+}
+
+clang(){
+echo "hello"
+}
+
+vscode(){
+echo "hello"
+}
+
+sublime(){
+echo "hello"
+}
+
+gimp(){
+echo "hello"
+}
+
+uget(){
+echo "hello"
+}
+
+
+
+show_menu(){
+array=("$@")
+total=${#array[*]}
+    while :
+    do
+for (( i=1; i<=$(( $total - 1 )); i++ ))
+do 
+    echo -e "${LYellow}$i) ${LBlue}${array[$i]}"
+done
+read -r -p "Enter your choice [1-30] : " c
+${array[$c]}
+done
+}
+
 mac(){
     displayInfo 1 $1
     helpme 1
@@ -234,311 +334,322 @@ fedora(){
 
 debian(){
     
-    displayInfo 0 $1
-    countdown 3 Installation starting...
+    # displayInfo 0 $1
+    # countdown 3 Installation starting
     
-    while :
-    do
+
         clear
-        echo ""
-        echo -e "${IWhite}---------------------------------"
-        echo "      Installation Menu            "
-        echo "---------------------------------"
-        echo "1. Clang"
-        echo "2. VS Code"
-        echo "3. Sublime Text"
-        echo "4. Libre Office"
-        echo "5. LAMP Stack"
-        echo "6. MEAN Stack"
-        echo "7. NodeJS"
-        echo "8. Golang"
-        echo "9. Virtual Box"
-        echo "10. Kazam"
-        echo "11. qBittorrent"
-        echo "12. Chrome"
-        echo "13. Chromium"
-        echo "14. Mozilla Firefox"
-        echo "15. Brave"
-        echo "16. VLC"
-        echo "17. Vim"
-        echo "18. Emacs"
-        echo "19. Gnome-tweaks"
-        echo "20. Pycharm"
-        echo "21. Anaconda"
-        echo "22. uGet"
-        echo "23. Signal Messenger"
-        echo "24. Telegram"
-        echo "25. Discord"
-        echo "26. GIMP"
-        echo "27. Inkscape"
-        echo "28. Git"
-        echo "29. NGNIX"
-        echo "30. Krita"
-        echo -e "Enter ${URed}quit${Reset} or ${URed}Ctrl+C${Reset} to exit"
-        echo "============================"
-        read -r -p "Enter your choice [1-30] : " c
+        show_menu debian ${menu[@]}
+        # echo ""
+        # echo -e "${IWhite}---------------------------------"
+        # echo "      Installation Menu            "
+        # echo "---------------------------------"
+        # echo "1. Clang"
+        # echo "2. VS Code"
+        # echo "3. Sublime Text"
+        # echo "4. Libre Office"
+        # echo "5. LAMP Stack"
+        # echo "6. MEAN Stack"
+        # echo "7. NodeJS"
+        # echo "8. Golang"
+        # echo "9. Virtual Box"
+        # echo "10. Kazam"
+        # echo "11. qBittorrent"
+        # echo "12. Chrome"
+        # echo "13. Chromium"
+        # echo "14. Mozilla Firefox"
+        # echo "15. Brave"
+        # echo "16. VLC"
+        # echo "17. Vim"
+        # echo "18. Emacs"
+        # echo "19. Gnome-tweaks"
+        # echo "20. Pycharm"
+        # echo "21. Anaconda"
+        # echo "22. uGet"
+        # echo "23. Signal Messenger"
+        # echo "24. Telegram"
+        # echo "25. Discord"
+        # echo "26. GIMP"
+        # echo "27. Inkscape"
+        # echo "28. Git"
+        # echo "29. NGNIX"
+        # echo "30. Krita"
+        # echo -e "Enter ${URed}quit${Reset} or ${URed}Ctrl+C${Reset} to exit"
+        # echo "============================"
         
-        case $c in
-            1)
-                start "Clang"
-                sudo apt install clang
-                check $?
+        
+        # case $c in
+        #     1)
+        #         start "Clang"
+        #         sudo apt install clang
+        #         check $?
                 
-            ;;
+        #     ;;
             
-            2)
-                start "VS Code"
-                sudo apt install software-properties-common apt-transport-https wget
-                wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-                sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-                sudo apt update
-                sudo apt install code
-                check $?
-            ;;
+        #     2)
+        #         start "VS Code"
+        #         sudo apt install software-properties-common apt-transport-https wget
+        #         wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+        #         sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+        #         sudo apt update
+        #         sudo apt install code
+        #         check $?
+        #     ;;
             
-            3)
-                start "Sublime Text"
-                sudo apt install apt-transport-https ca-certificates curl software-properties-common
-                curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-                sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
-                sudo apt update
-                sudo apt install sublime-text
-                check $?
-            ;;
+        #     3)
+        #         start "Sublime Text"
+        #         sudo apt install apt-transport-https ca-certificates curl software-properties-common
+        #         curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+        #         sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+        #         sudo apt update
+        #         sudo apt install sublime-text
+        #         check $?
+        #     ;;
             
-            4)
-                start "Libre Office"
-                sudo add-apt-repository ppa:libreoffice/ppa
-                sudo apt update
-                sudo apt install libreoffice
-                check $?
-            ;;
+        #     4)
+        #         start "Libre Office"
+        #         sudo add-apt-repository ppa:libreoffice/ppa
+        #         sudo apt update
+        #         sudo apt install libreoffice
+        #         check $?
+        #     ;;
             
-            5)
-                start "LAMP Stack"
-                echo "Installing Apache2"
-                sudo apt update
-                sudo apt install apache2 -y
-                sudo apache2ctl configtest
+        #     5)
+        #         start "LAMP Stack"
+        #         echo "Installing Apache2"
+        #         sudo apt update
+        #         sudo apt install apache2 -y
+        #         sudo apache2ctl configtest
                 
-                echo "Adjusting Firewall"
-                sudo ufw app list
-                sudo ufw app info "Apache Full"
-                sudo ufw allow in "Apache Full"
+        #         echo "Adjusting Firewall"
+        #         sudo ufw app list
+        #         sudo ufw app info "Apache Full"
+        #         sudo ufw allow in "Apache Full"
                 
-                echo "Installing Mysql"
-                sudo apt install mysql-server -y
+        #         echo "Installing Mysql"
+        #         sudo apt install mysql-server -y
                 
-                echo "Installing PHP"
-                sudo apt install php libapache2-mod-php php-mcrypt php-mysql -y
+        #         echo "Installing PHP"
+        #         sudo apt install php libapache2-mod-php php-mcrypt php-mysql -y
                 
-                echo "Inastalling phpmyadmin..."
-                sudo apt update
-                sudo apt install phpmyadmin php-mbstring php-gettext
-                sudo phpenmod mcrypt
-                sudo phpenmod mbstring
-                sudo systemctl restart apache2
+        #         echo "Inastalling phpmyadmin..."
+        #         sudo apt update
+        #         sudo apt install phpmyadmin php-mbstring php-gettext
+        #         sudo phpenmod mcrypt
+        #         sudo phpenmod mbstring
+        #         sudo systemctl restart apache2
                 
-                sudo systemctl start apache2
-                echo "Installation complete"
-                sudo systemctl status apache2
-                check $?
-            ;;
+        #         sudo systemctl start apache2
+        #         echo "Installation complete"
+        #         sudo systemctl status apache2
+        #         check $?
+        #     ;;
             
-            6)
-                start "MEAN Stack"
-                sudo apt install gnupg -y
-                wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-                sudo apt update
-                echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
-                sudo apt install -y mongodb-org
-                sudo systemctl start mongod
-                service mongod status
-                echo "MEAN stack Installed."
-            ;;
+        #     6)
+        #         start "MEAN Stack"
+        #         sudo apt install gnupg -y
+        #         wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+        #         sudo apt update
+        #         echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+        #         sudo apt install -y mongodb-org
+        #         sudo systemctl start mongod
+        #         service mongod status
+        #         echo "MEAN stack Installed."
+        #     ;;
             
-            7)
-                start "NodeJS"
-                curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash –
-                sudo apt install -y nodejs
-                sudo apt install build-essential
-                check $?
-            ;;
+        #     7)
+        #         start "NodeJS"
+        #         curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash –
+        #         sudo apt install -y nodejs
+        #         sudo apt install build-essential
+        #         check $?
+        #     ;;
             
-            8)
-                start "Go"
-                wget https://golang.org/dl/go1.15.6.linux-amd64.tar.gz
-                tar -C /usr/local -xzf go1.15.6.linux-amd64.tar.gz
-                export PATH=$PATH:/usr/local/go/bin
-                check $?
-            ;;
+        #     8)
+        #         start "Go"
+        #         wget https://golang.org/dl/go1.15.6.linux-amd64.tar.gz
+        #         tar -C /usr/local -xzf go1.15.6.linux-amd64.tar.gz
+        #         export PATH=$PATH:/usr/local/go/bin
+        #         check $?
+        #     ;;
             
-            9)
-                start "Virtual Box"
-                sudo apt update
-                sudo apt install virtualbox
-                sudo apt install virtualbox—ext–pack
-                check $?
-            ;;
+        #     9)
+        #         start "Virtual Box"
+        #         sudo apt update
+        #         sudo apt install virtualbox
+        #         sudo apt install virtualbox—ext–pack
+        #         check $?
+        #     ;;
             
-            10)
-                start "Kazam"
-                sudo apt install kazam
-                check $?
-            ;;
+        #     10)
+        #         start "Kazam"
+        #         sudo apt install kazam
+        #         check $?
+        #     ;;
             
-            11)
-                start "qBitorrent"
-                sudo apt install qbittorrent
-                check $?
-            ;;
-            
-            
-            12)
-                start "Chrome"
-                wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-                sudo dpkg -i google-chrome-stable_current_amd64.deb
-                check $?
-            ;;
-            
-            13)
-                start "Chromium"
-                sudo apt install -y chromium-browser
-            check $?;;
+        #     11)
+        #         start "qBitorrent"
+        #         sudo apt install qbittorrent
+        #         check $?
+        #     ;;
             
             
-            14)
-                start "Firefox"
-                sudo apt install -y firefox
-            check $?;;
+        #     12)
+        #         start "Chrome"
+        #         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        #         sudo dpkg -i google-chrome-stable_current_amd64.deb
+        #         check $?
+        #     ;;
             
-            15)
-                start "Brave"
-                sudo apt install apt-transport-https curl
-                curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
-                echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-                check $?
-            ;;
-            
-            16)
-                start "VLC"
-                sudo apt install vlc
-            check $?;;
-            
-            17)
-                start "VIM"
-                sudo apt install vim
-            check $?;;
-            
-            18)
-                start "EMACS"
-                sudo add-apt-repository ppa:kelleyk/emacs
-                sudo apt update
-                sudo apt install emacsVERSION
-            check $?;;
-            
-            19)
-                start "gnome tweaks"
-                sudo apt install gnome-tweaks
-            check $?;;
-            
-            20)
-                start "pyCharm"
-                wget -q https://download.jetbrains.com/python/pycharm-community-2020.3.2.tar.gz?_ga=2.51716457.1746728834.1610096895-1594661800.1610096895
-                tar -xzf pycharm-community-2020.1.1.tar.gz
-                cd pycharm-community-2020.1.1
-                cd bin
-                chmod u+x pycharm.sh
-            check $?;;
-            
-            21)
-                start "Anaconda"
-                cd /tmp
-                curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
-                bash Anaconda3-2019.03-Linux-x86_64.sh
-                source ~/.bashrc
-            check $?;;
-            
-            22)
-                start "uGet"
-                sudo add-apt-repository ppa:plushuang-tw/uget-stable
-                sudo apt update
-                sudo apt install uget
-            check $?;;
-            
-            23)
-                start "Signal"
-                wget -O- https://updates.signal.org/desktop/apt/keys.asc |\
-                sudo apt-key add -
-                echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" |\
-                sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
-                sudo apt update && sudo apt install signal-desktop
-            check $?;;
+        #     13)
+        #         start "Chromium"
+        #         sudo apt install -y chromium-browser
+        #     check $?;;
             
             
-            24)
-                start "Telegram"
-                wget -O- https://telegram.org/dl/desktop/linux | sudo tar xJ -C /opt/
-                sudo ln -s /opt/Telegram/Telegram /usr/local/bin/telegram-desktop
-            check $?;;
+        #     14)
+        #         start "Firefox"
+        #         sudo apt install -y firefox
+        #     check $?;;
             
-            25)
-                start "Discord"
-                sudo apt update
-                $ sudo apt install gdebi-core wget
-                sudo gdebi ~/discord.deb -y
-                
-            check $?;;
+        #     15)
+        #         start "Brave"
+        #         sudo apt install apt-transport-https curl
+        #         curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+        #         echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+        #         check $?
+        #     ;;
             
-            26)
-                start "GIMP"
-                sudo add-apt-repository ppa:otto-kesselgulasch/gimp
-                sudo apt update
-                sudo apt install gimp
-                
-            check $?;;
+        #     16)
+        #         start "VLC"
+        #         sudo apt install vlc
+        #     check $?
+        #     ;;
             
-            27)
-                start "Inkscape"
-                sudo add-apt-repository ppa:inkscape.dev/stable
-                sudo apt update
-                sudo apt install inkscape
-            check $?;;
+        #     17)
+        #         start "VIM"
+        #         sudo apt install vim
+        #     check $?
+        #     ;;
             
-            28)
-                start "Git"
-                sudo apt install git-all
-            check $?;;
+        #     18)
+        #         start "EMACS"
+        #         sudo add-apt-repository ppa:kelleyk/emacs
+        #         sudo apt update
+        #         sudo apt install emacsVERSION
+        #     check $?
+        #     ;;
             
-            29)
-                start "Ngnix"
-                sudo apt update
-                sudo apt install nginx
+        #     19)
+        #         start "gnome tweaks"
+        #         sudo apt install gnome-tweaks
+        #     check $?
+        #     ;;
+            
+        #     20)
+        #         start "pyCharm"
+        #         wget -q https://download.jetbrains.com/python/pycharm-community-2020.3.2.tar.gz?_ga=2.51716457.1746728834.1610096895-1594661800.1610096895
+        #         tar -xzf pycharm-community-2020.1.1.tar.gz
+        #         cd pycharm-community-2020.1.1
+        #         cd bin
+        #         chmod u+x pycharm.sh
+        #         check $?
+        #     ;;
+            
+        #     21)
+        #         start "Anaconda"
+        #         cd /tmp
+        #         curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
+        #         bash Anaconda3-2019.03-Linux-x86_64.sh
+        #         source ~/.bashrc
+        #     check $?
+        #     ;;
+            
+        #     22)
+        #         start "uGet"
+        #         sudo add-apt-repository ppa:plushuang-tw/uget-stable
+        #         sudo apt update
+        #         sudo apt install uget
+        #     check $?
+        #     ;;
+            
+        #     23)
+        #         start "Signal"
+        #         wget -O- https://updates.signal.org/desktop/apt/keys.asc |\
+        #         sudo apt-key add -
+        #         echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" |\
+        #         sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+        #         sudo apt update && sudo apt install signal-desktop
+        #     check $?
+        #     ;;
+            
+        #     24)
+        #         start "Telegram"
+        #         wget -O- https://telegram.org/dl/desktop/linux | sudo tar xJ -C /opt/
+        #         sudo ln -s /opt/Telegram/Telegram /usr/local/bin/telegram-desktop
+        #     check $?
+        #     ;;
+            
+        #     25)
+        #         start "Discord"
+        #         sudo apt update
+        #         $ sudo apt install gdebi-core wget
+        #         sudo gdebi ~/discord.deb -y
+        #     check $?
+        #     ;;
+            
+        #     26)
+        #         start "GIMP"
+        #         sudo add-apt-repository ppa:otto-kesselgulasch/gimp
+        #         sudo apt update
+        #         sudo apt install gimp
+        #     check $?
+        #     ;;
+            
+        #     27)
+        #         start "Inkscape"
+        #         sudo add-apt-repository ppa:inkscape.dev/stable
+        #         sudo apt update
+        #         sudo apt install inkscape
+        #     check $?;;
+            
+        #     28)
+        #         start "Git"
+        #         sudo apt install git-all
+        #     check $?
+        #     ;;
+            
+        #     29)
+        #         start "Ngnix"
+        #         sudo apt update
+        #         sudo apt install nginx
 
-                echo "Adjusting Firewall"
-                sudo ufw allow 'Nginx HTTP'
+        #         echo "Adjusting Firewall"
+        #         sudo ufw allow 'Nginx HTTP'
 
-                echo "Enabling Ngnix"
-                systemctl enable nginx
-                systemctl restart nginx
-                systemctl status nginx
-            check $?;;
+        #         echo "Enabling Ngnix"
+        #         systemctl enable nginx
+        #         systemctl restart nginx
+        #         systemctl status nginx
+        #     check $?
+        #     ;;
             
-            30)
-                start "Krita"
-                sudo add-apt-repository ppa:kritalime/ppa
-                sudo apt update
-                sudo apt-get install krita
-            check $?;;
+        #     30)
+        #         start "Krita"
+        #         sudo add-apt-repository ppa:kritalime/ppa
+        #         sudo apt update
+        #         sudo apt-get install krita
+        #     check $?
+        #     ;;
             
-            quit)
-                echo -e "${BGreen}Quiting ..."
-                echo "Bye"
-            break;;
+        #     quit)
+        #         echo -e "${BGreen}Quiting ..."
+        #         echo "Bye"
+        #     break;;
             
-            *) Pause "Select between 1 to 30 only."
-        esac
-    done
+        #     *) Pause "Select between 1 to 30 only."
+        # esac
+    
 }
 
 echo ""
@@ -554,7 +665,7 @@ echo "mailto:ahampriyanshu@gmail.com"
 echo -e "${Reset}"
 echo -e "${BYellow}Detecting System Configuration"
 echo -e "${Reset}"
-progressbar
+# progressbar
 echo ""
 
 if [ -f /etc/lsb-release ]; then debian "/etc/lsb-release"
