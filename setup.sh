@@ -68,12 +68,14 @@ On_IWhite='\033[0;107m'   # White
 LBlue='\033[36m'
 LYellow='\033[33m'
 
-menu=( essential ide web utilities multimedia )
-essential=( wget curl git pip npm go nodejs nvm )
-ide=( vscode sublimetext vim emacs gvim pycharm intellij )
-web=( LAMP MEAN apache ngnix phpmyadmin chrome chromium brave firefox )
-utilities=( libreoffice uget qBitorrent krita inkscape gimp telegram discord signal )
-multimedia=( vlc gragonplayer kdenlive )
+menu=( essential language framework editor web utilities multimedia )
+essential=( clang wget curl git pip npm nvm )
+language=( gcc java go python scala php node  )
+framework=( django flask scrappy reactjs laravel LAMP MEAN apache ngnix phpmyadmin anaconda )
+editor=( vscode sublimetext vim gvim emacs pycharm )
+web=( chrome chromium brave firefox telegram discord signal slack uGet qBitorrent youtube-dl )
+utilities=( libreoffice krita inkscape gimp virtualbox gParted steam )
+multimedia=( vlc dragonplayer kdenlive obs kazam handbrake audacity clementine )
 
 progressbar() {
     local duration
@@ -125,8 +127,8 @@ quit(){
 }
 
 displayInfo(){
-    echo ""
-    echo -e "${IGreen}---------------------------------"
+    echo -e "${IGreen}"
+    echo "---------------------------------"
     echo "      Distro Information           "
     echo "---------------------------------"
     echo ""
@@ -177,7 +179,7 @@ helpme(){
 
 start(){
     echo ""
-    echo -e "${IGreen}Installing latest version of $1."
+    echo -e "${IGreen}Installing the latest version of $1 for $2"
     echo -e "${Reset}"
 }
 
@@ -197,73 +199,511 @@ check(){
     sleep 3
 }
 
-chrome(){
-echo "hello"
+mac(){
+    start $1 "mac"
+    case $1 in
+        clang) helpme 3 ;;
+        wget) helpme 3 ;;
+        curl) helpme 3 ;;
+        git) helpme 3 ;;
+        pip) helpme 3 ;;
+        npm) helpme 3 ;;
+        nvm) helpme 3 ;;
+        gcc) helpme 3 ;;     
+        java) helpme 3 ;;
+        go) helpme 3 ;;
+        python) helpme 3 ;;
+        scala) helpme 3 ;;
+        php) helpme 3 ;;
+        node) helpme 3 ;;       
+        django) helpme 3 ;;
+        flask) helpme 3 ;;
+        scrappy) helpme 3 ;;
+        reactjs) helpme 3 ;;
+        laravel) helpme 3 ;;
+        LAMP) helpme 3 ;;
+        MEAN) helpme 3 ;;
+        apache) helpme 3 ;;
+        ngnix) helpme 3 ;;
+        phpmyadmin) helpme 3 ;;
+        anaconda) helpme 3 ;;
+        vscode) helpme 3 ;;
+        sublimetext) helpme 3 ;;
+        vim) helpme 3 ;;
+        gvim) helpme 3 ;;
+        emacs) helpme 3 ;;
+        pycharm) helpme 3 ;;          
+        chrome) helpme 3 ;;
+        chromium) helpme 3 ;;
+        brave) helpme 3 ;;
+        firefox) helpme 3 ;;
+        telegram) helpme 3 ;; 
+        discord) helpme 3 ;;
+        signal) helpme 3 ;;
+        slack) helpme 3 ;; 
+        uGet) helpme 3 ;;
+        qBitorrent) helpme 3 ;;
+        youtube-dl) helpme 3 ;;
+        libreoffice) helpme 3 ;;
+        krita) helpme 3 ;;
+        inkscape) helpme 3 ;;
+        gimp) helpme 3 ;;
+        virtualbox) helpme 3 ;;
+        gParted) helpme 3 ;;
+        steam) helpme 3 ;; 
+        vlc) helpme 3 ;;
+        dragonplayer) helpme 3 ;;
+        kdenlive) helpme 3 ;;
+        obs) helpme 3 ;;
+        kazam) helpme 3 ;;
+        handbrake) helpme 3 ;;   
+        audacity) helpme 3 ;;
+        clementine) helpme 3 ;; 
+        *) helpme 6
+esac
 }
 
-firefox(){
-echo "hello"
+slackware(){
+    start $1 "slackware"
+    case $1 in
+        clang) helpme 3 ;;
+        wget) helpme 3 ;;
+        curl) helpme 3 ;;
+        git) helpme 3 ;;
+        pip) helpme 3 ;;
+        npm) helpme 3 ;;
+        nvm) helpme 3 ;;
+        gcc) helpme 3 ;;     
+        java) helpme 3 ;;
+        go) helpme 3 ;;
+        python) helpme 3 ;;
+        scala) helpme 3 ;;
+        php) helpme 3 ;;
+        node) helpme 3 ;;       
+        django) helpme 3 ;;
+        flask) helpme 3 ;;
+        scrappy) helpme 3 ;;
+        reactjs) helpme 3 ;;
+        laravel) helpme 3 ;;
+        LAMP) helpme 3 ;;
+        MEAN) helpme 3 ;;
+        apache) helpme 3 ;;
+        ngnix) helpme 3 ;;
+        phpmyadmin) helpme 3 ;;
+        anaconda) helpme 3 ;;
+        vscode) helpme 3 ;;
+        sublimetext) helpme 3 ;;
+        vim) helpme 3 ;;
+        gvim) helpme 3 ;;
+        emacs) helpme 3 ;;
+        pycharm) helpme 3 ;;          
+        chrome) helpme 3 ;;
+        chromium) helpme 3 ;;
+        brave) helpme 3 ;;
+        firefox) helpme 3 ;;
+        telegram) helpme 3 ;; 
+        discord) helpme 3 ;;
+        signal) helpme 3 ;;
+        slack) helpme 3 ;; 
+        uGet) helpme 3 ;;
+        qBitorrent) helpme 3 ;;
+        youtube-dl) helpme 3 ;;
+        libreoffice) helpme 3 ;;
+        krita) helpme 3 ;;
+        inkscape) helpme 3 ;;
+        gimp) helpme 3 ;;
+        virtualbox) helpme 3 ;;
+        gParted) helpme 3 ;;
+        steam) helpme 3 ;; 
+        vlc) helpme 3 ;;
+        dragonplayer) helpme 3 ;;
+        kdenlive) helpme 3 ;;
+        obs) helpme 3 ;;
+        kazam) helpme 3 ;;
+        handbrake) helpme 3 ;;   
+        audacity) helpme 3 ;;
+        clementine) helpme 3 ;; 
+        *) helpme 6
+esac
 }
 
-chromium(){
-echo "hello"
+mandriva(){
+    start $1 "mandriva"
+    case $1 in
+        clang) helpme 3 ;;
+        wget) helpme 3 ;;
+        curl) helpme 3 ;;
+        git) helpme 3 ;;
+        pip) helpme 3 ;;
+        npm) helpme 3 ;;
+        nvm) helpme 3 ;;
+        gcc) helpme 3 ;;     
+        java) helpme 3 ;;
+        go) helpme 3 ;;
+        python) helpme 3 ;;
+        scala) helpme 3 ;;
+        php) helpme 3 ;;
+        node) helpme 3 ;;       
+        django) helpme 3 ;;
+        flask) helpme 3 ;;
+        scrappy) helpme 3 ;;
+        reactjs) helpme 3 ;;
+        laravel) helpme 3 ;;
+        LAMP) helpme 3 ;;
+        MEAN) helpme 3 ;;
+        apache) helpme 3 ;;
+        ngnix) helpme 3 ;;
+        phpmyadmin) helpme 3 ;;
+        anaconda) helpme 3 ;;
+        vscode) helpme 3 ;;
+        sublimetext) helpme 3 ;;
+        vim) helpme 3 ;;
+        gvim) helpme 3 ;;
+        emacs) helpme 3 ;;
+        pycharm) helpme 3 ;;          
+        chrome) helpme 3 ;;
+        chromium) helpme 3 ;;
+        brave) helpme 3 ;;
+        firefox) helpme 3 ;;
+        telegram) helpme 3 ;; 
+        discord) helpme 3 ;;
+        signal) helpme 3 ;;
+        slack) helpme 3 ;; 
+        uGet) helpme 3 ;;
+        qBitorrent) helpme 3 ;;
+        youtube-dl) helpme 3 ;;
+        libreoffice) helpme 3 ;;
+        krita) helpme 3 ;;
+        inkscape) helpme 3 ;;
+        gimp) helpme 3 ;;
+        virtualbox) helpme 3 ;;
+        gParted) helpme 3 ;;
+        steam) helpme 3 ;; 
+        vlc) helpme 3 ;;
+        dragonplayer) helpme 3 ;;
+        kdenlive) helpme 3 ;;
+        obs) helpme 3 ;;
+        kazam) helpme 3 ;;
+        handbrake) helpme 3 ;;   
+        audacity) helpme 3 ;;
+        clementine) helpme 3 ;; 
+        *) helpme 6
+esac
 }
 
-brave(){
-echo "hello"
+suse(){
+    start $1 "openSuSe"
+    case $1 in
+        clang) helpme 3 ;;
+        wget) helpme 3 ;;
+        curl) helpme 3 ;;
+        git) helpme 3 ;;
+        pip) helpme 3 ;;
+        npm) helpme 3 ;;
+        nvm) helpme 3 ;;
+        gcc) helpme 3 ;;     
+        java) helpme 3 ;;
+        go) helpme 3 ;;
+        python) helpme 3 ;;
+        scala) helpme 3 ;;
+        php) helpme 3 ;;
+        node) helpme 3 ;;       
+        django) helpme 3 ;;
+        flask) helpme 3 ;;
+        scrappy) helpme 3 ;;
+        reactjs) helpme 3 ;;
+        laravel) helpme 3 ;;
+        LAMP) helpme 3 ;;
+        MEAN) helpme 3 ;;
+        apache) helpme 3 ;;
+        ngnix) helpme 3 ;;
+        phpmyadmin) helpme 3 ;;
+        anaconda) helpme 3 ;;
+        vscode) helpme 3 ;;
+        sublimetext) helpme 3 ;;
+        vim) helpme 3 ;;
+        gvim) helpme 3 ;;
+        emacs) helpme 3 ;;
+        pycharm) helpme 3 ;;          
+        chrome) helpme 3 ;;
+        chromium) helpme 3 ;;
+        brave) helpme 3 ;;
+        firefox) helpme 3 ;;
+        telegram) helpme 3 ;; 
+        discord) helpme 3 ;;
+        signal) helpme 3 ;;
+        slack) helpme 3 ;; 
+        uGet) helpme 3 ;;
+        qBitorrent) helpme 3 ;;
+        youtube-dl) helpme 3 ;;
+        libreoffice) helpme 3 ;;
+        krita) helpme 3 ;;
+        inkscape) helpme 3 ;;
+        gimp) helpme 3 ;;
+        virtualbox) helpme 3 ;;
+        gParted) helpme 3 ;;
+        steam) helpme 3 ;; 
+        vlc) helpme 3 ;;
+        dragonplayer) helpme 3 ;;
+        kdenlive) helpme 3 ;;
+        obs) helpme 3 ;;
+        kazam) helpme 3 ;;
+        handbrake) helpme 3 ;;   
+        audacity) helpme 3 ;;
+        clementine) helpme 3 ;; 
+        *) helpme 6
+esac
 }
 
-firefox(){
-echo "hello"
+gentoo(){
+    start $1 "gentoo"
+    case $1 in
+        clang) helpme 3 ;;
+        wget) helpme 3 ;;
+        curl) helpme 3 ;;
+        git) helpme 3 ;;
+        pip) helpme 3 ;;
+        npm) helpme 3 ;;
+        nvm) helpme 3 ;;
+        gcc) helpme 3 ;;     
+        java) helpme 3 ;;
+        go) helpme 3 ;;
+        python) helpme 3 ;;
+        scala) helpme 3 ;;
+        php) helpme 3 ;;
+        node) helpme 3 ;;       
+        django) helpme 3 ;;
+        flask) helpme 3 ;;
+        scrappy) helpme 3 ;;
+        reactjs) helpme 3 ;;
+        laravel) helpme 3 ;;
+        LAMP) helpme 3 ;;
+        MEAN) helpme 3 ;;
+        apache) helpme 3 ;;
+        ngnix) helpme 3 ;;
+        phpmyadmin) helpme 3 ;;
+        anaconda) helpme 3 ;;
+        vscode) helpme 3 ;;
+        sublimetext) helpme 3 ;;
+        vim) helpme 3 ;;
+        gvim) helpme 3 ;;
+        emacs) helpme 3 ;;
+        pycharm) helpme 3 ;;          
+        chrome) helpme 3 ;;
+        chromium) helpme 3 ;;
+        brave) helpme 3 ;;
+        firefox) helpme 3 ;;
+        telegram) helpme 3 ;; 
+        discord) helpme 3 ;;
+        signal) helpme 3 ;;
+        slack) helpme 3 ;; 
+        uGet) helpme 3 ;;
+        qBitorrent) helpme 3 ;;
+        youtube-dl) helpme 3 ;;
+        libreoffice) helpme 3 ;;
+        krita) helpme 3 ;;
+        inkscape) helpme 3 ;;
+        gimp) helpme 3 ;;
+        virtualbox) helpme 3 ;;
+        gParted) helpme 3 ;;
+        steam) helpme 3 ;; 
+        vlc) helpme 3 ;;
+        dragonplayer) helpme 3 ;;
+        kdenlive) helpme 3 ;;
+        obs) helpme 3 ;;
+        kazam) helpme 3 ;;
+        handbrake) helpme 3 ;;   
+        audacity) helpme 3 ;;
+        clementine) helpme 3 ;; 
+        *) helpme 6
+esac
 }
 
-vlc(){
-echo "hello"
+fedora(){
+    start $1 "fedora"
+    case $1 in
+        clang) helpme 3 ;;
+        wget) helpme 3 ;;
+        curl) helpme 3 ;;
+        git) helpme 3 ;;
+        pip) helpme 3 ;;
+        npm) helpme 3 ;;
+        nvm) helpme 3 ;;
+        gcc) helpme 3 ;;     
+        java) helpme 3 ;;
+        go) helpme 3 ;;
+        python) helpme 3 ;;
+        scala) helpme 3 ;;
+        php) helpme 3 ;;
+        node) helpme 3 ;;       
+        django) helpme 3 ;;
+        flask) helpme 3 ;;
+        scrappy) helpme 3 ;;
+        reactjs) helpme 3 ;;
+        laravel) helpme 3 ;;
+        LAMP) helpme 3 ;;
+        MEAN) helpme 3 ;;
+        apache) helpme 3 ;;
+        ngnix) helpme 3 ;;
+        phpmyadmin) helpme 3 ;;
+        anaconda) helpme 3 ;;
+        vscode) helpme 3 ;;
+        sublimetext) helpme 3 ;;
+        vim) helpme 3 ;;
+        gvim) helpme 3 ;;
+        emacs) helpme 3 ;;
+        pycharm) helpme 3 ;;          
+        chrome) helpme 3 ;;
+        chromium) helpme 3 ;;
+        brave) helpme 3 ;;
+        firefox) helpme 3 ;;
+        telegram) helpme 3 ;; 
+        discord) helpme 3 ;;
+        signal) helpme 3 ;;
+        slack) helpme 3 ;; 
+        uGet) helpme 3 ;;
+        qBitorrent) helpme 3 ;;
+        youtube-dl) helpme 3 ;;
+        libreoffice) helpme 3 ;;
+        krita) helpme 3 ;;
+        inkscape) helpme 3 ;;
+        gimp) helpme 3 ;;
+        virtualbox) helpme 3 ;;
+        gParted) helpme 3 ;;
+        steam) helpme 3 ;; 
+        vlc) helpme 3 ;;
+        dragonplayer) helpme 3 ;;
+        kdenlive) helpme 3 ;;
+        obs) helpme 3 ;;
+        kazam) helpme 3 ;;
+        handbrake) helpme 3 ;;   
+        audacity) helpme 3 ;;
+        clementine) helpme 3 ;; 
+        *) helpme 6
+esac
 }
 
-vim(){
-echo "hello"
+debian(){
+    start $1 "mac"
+    case $1 in
+        clang) helpme 3 
+        check $?;;
+        wget) helpme 3 
+        check $?;;
+        curl) helpme 3 
+        check $?;;
+        git) helpme 3 
+        check $?;;
+        pip) helpme 3 
+        check $?;;
+        npm) helpme 3 
+        check $?;;
+        nvm) helpme 3 
+        check $?;;
+        gcc) helpme 3 
+        check $?;;     
+        java) helpme 3 
+        check $?;;
+        go) helpme 3 
+        check $?;;
+        python) helpme 3 
+        check $?;;
+        scala) helpme 3 
+        check $?;;
+        php) helpme 3 
+        check $?;;
+        node) helpme 3 
+        check $?;;       
+        django) helpme 3 
+        check $?;;
+        flask) helpme 3 
+        check $?;;
+        scrappy) helpme 3 
+        check $?;;
+        reactjs) helpme 3 
+        check $?;;
+        laravel) helpme 3 
+        check $?;;
+        LAMP) helpme 3 
+        check $?;;
+        MEAN) helpme 3 
+        check $?;;
+        apache) helpme 3 
+        check $?;;
+        ngnix) helpme 3 
+        check $?;;
+        phpmyadmin) helpme 3 
+        check $?;;
+        anaconda) helpme 3 
+        check $?;;
+        vscode) helpme 3 
+        check $?;;
+        sublimetext) helpme 3 
+        check $?;;
+        vim) helpme 3 
+        check $?;;
+        gvim) helpme 3 
+        check $?;;
+        emacs) helpme 3 
+        check $?;;
+        pycharm) helpme 3 
+        check $?;;          
+        chrome) helpme 3 
+        check $?;;
+        chromium) helpme 3 
+        check $?;;
+        brave) helpme 3 
+        check $?;;
+        firefox) helpme 3 
+        check $?;;
+        telegram) helpme 3 
+        check $?;; 
+        discord) helpme 3 
+        check $?;;
+        signal) helpme 3 
+        check $?;;
+        slack) helpme 3 
+        check $?;; 
+        uGet) helpme 3 
+        check $?;;
+        qBitorrent) helpme 3 
+        check $?;;
+        youtube-dl) helpme 3 
+        check $?;;
+        libreoffice) helpme 3 
+        check $?;;
+        krita) helpme 3 
+        check $?;;
+        inkscape) helpme 3 
+        check $?;;
+        gimp) helpme 3 
+        check $?;;
+        virtualbox) helpme 3 
+        check $?;;
+        gParted) helpme 3 
+        check $?;;
+        steam) helpme 3 
+        check $?;; 
+        vlc) helpme 3 
+        check $?;;
+        dragonplayer) helpme 3 
+        check $?;;
+        kdenlive) helpme 3 
+        check $?;;
+        obs) helpme 3 
+        check $?;;
+        kazam) helpme 3 
+        check $?;;
+        handbrake) helpme 3 
+        check $?;;   
+        audacity) helpme 3 
+        check $?;;
+        clementine) helpme 3 
+        check $?;; 
+        *) helpme 6
+esac
 }
 
-emacs(){
-echo "hello"
-}
-
-lamp(){
-echo "hello"
-}
-
-mean(){
-echo "hello"
-}
-
-nginx(){
-echo "hello"
-}
-
-apache(){
-echo "hello"
-}
-
-clang(){
-echo "hello"
-}
-
-vscode(){
-echo "hello"
-}
-
-sublime(){
-echo "hello"
-}
-
-gimp(){
-echo "hello"
-}
-
-uget(){
-echo "hello"
-}
 
 sub_menu(){
 array=("$@")
@@ -282,7 +722,7 @@ read -p "Enter your choice [1-$(($total - 1))] : " input
 
 for elem in ${input[@]}
 do 
-${array[$elem]} ${array[0]}
+${array[0]} ${array[$elem]}
 done
 
 done
@@ -302,9 +742,7 @@ do
 done
 
 read -r -p "Enter your choice [1-$(($total - 1))] : " input
-if [ "$input" -ge 1 ] && [ "$input" -lt $total ]; then
-sub=${array[$input]}[@];
-sub_menu ${array[0]} ${!sub};
+if [[ "$input" -ge 1 && "$input" -lt $total ]] ; then sub=${array[$input]}[@]; sub_menu ${array[0]} ${!sub};
 elif [[ $input = "q" ]] || [[ $input = "Q" ]] ; then quit
 else clear ;
 fi
@@ -313,35 +751,7 @@ fi
 done
 }
 
-# mac(){
-#     displayInfo 1 $1
-#     helpme 1
-# }
 
-# slackware(){
-#     displayInfo 0 $1
-#     helpme 1
-# }
-
-# mandriva(){
-#     displayInfo 0 $1
-#     helpme 1
-# }
-
-# suse(){
-#     displayInfo 0 $1
-#     helpme 1
-# }
-
-# gentoo(){
-#     displayInfo 0 $1
-#     helpme 1
-# }
-
-# fedora(){
-#     displayInfo 0 $1
-#     helpme 1
-# }
 
         # echo ""
         # echo -e "${IWhite}---------------------------------"
