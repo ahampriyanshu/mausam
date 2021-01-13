@@ -121,6 +121,7 @@ countdown() {
 }
 
 quit(){
+    echo -e "${BGreen}Please star this repo if you found this script usefull"
     echo -e "${BGreen}Quiting ..."
     echo "Bye"
     exit;
@@ -129,7 +130,7 @@ quit(){
 displayInfo(){
     echo -e "${IGreen}"
     echo "---------------------------------"
-    echo "      Distro Information           "
+    echo "      Distro Information         "
     echo "---------------------------------"
     echo ""
     
@@ -141,7 +142,7 @@ displayInfo(){
     fi
     
     echo -e "${Reset}"
-    # countdown 3 Installation starting
+    countdown 3 Installation starting
     main_menu $3 ${menu[@]}
 }
 
@@ -150,37 +151,44 @@ helpme(){
     echo    "|  Would you mind helping me, please?   |"
     echo    "|=======================================|"
     echo -e "${Reset}"
-
+    
     case $1 in
-            1)
-    echo -e "${IRed}Your OS isn't supported yet."
-    echo "But you can contribute in making this script even better!"
-    echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
-    echo -e "${Reset}"
-            ;;
-            
-            2)
-    echo -e "${IRed}Sorry! We couldn't recognize your OS."
-    echo "Please report this issue."
-    echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101/issues/new"
-    echo -e "${Reset}"
-            ;;
-            
-            3)
-    echo -e "${IRed}This installation isn't supported yet."
-    echo "But you can contribute in making this script even better!"
-    echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
-    echo -e "${Reset}"
-            ;;
-            
-            *) echo "Wow! You have reached a new milestone."
-        esac
+        1)
+            echo -e "${IRed}Your OS isn't supported yet."
+            echo "But you can contribute in making this script even better!"
+            echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
+            echo -e "${Reset}"
+        ;;
+        
+        2)
+            echo -e "${IRed}Sorry! We couldn't recognize your OS."
+            echo "Please report this issue."
+            echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101/issues/new"
+            echo -e "${Reset}"
+        ;;
+        
+        3)
+            echo -e "${IRed}This installation isn't supported yet."
+            echo "But you can contribute in making this script even better by appending the installation commands"
+            echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
+            echo -e "${Reset}"
+        ;;
+        
+        4)
+            echo -e "${IRed}Something went wrong"
+            echo "If you know what that is then please report this issue."
+            echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101"
+            echo -e "${Reset}"
+        ;;
+        
+        *) echo "Wow! You have reached a new milestone."
+    esac
 }
 
 start(){
     echo ""
-    echo -e "${IGreen}Installing the latest version of $1 for $2"
-    echo -e "${Reset}"
+    echo -e "${IGreen} Installing the latest version of $1 for $2 ${Reset}"
+    echo ""
 }
 
 check(){
@@ -189,13 +197,12 @@ check(){
         echo -e "${IGreen}Installation complete."
     else
         echo -e "${IRed}Installation failed!"
-        echo -e "${IRed}Some error occurred during installation or installation was aborted manually."
-    echo "Please check your internet connection or system conf and then retry."
-    echo "If the error persists, please report the issue."
-    echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101/issues/new"
-    echo -e "${Reset}"
+        echo "Some error occurred during installation or installation was aborted manually."
+        echo "Please check your internet connection or system conf and then retry."
+        echo "If the error persists, please report the issue."
+        echo -e "${UGreen}https://github.com/ahampriyanshu/scripts_101/issues/new${Reset}"
     fi
-    echo -e "${Reset}"
+    echo ""
     sleep 3
 }
 
@@ -209,13 +216,13 @@ mac(){
         pip) helpme 3 ;;
         npm) helpme 3 ;;
         nvm) helpme 3 ;;
-        gcc) helpme 3 ;;     
+        gcc) helpme 3 ;;
         java) helpme 3 ;;
         go) helpme 3 ;;
         python) helpme 3 ;;
         scala) helpme 3 ;;
         php) helpme 3 ;;
-        node) helpme 3 ;;       
+        node) helpme 3 ;;
         django) helpme 3 ;;
         flask) helpme 3 ;;
         scrappy) helpme 3 ;;
@@ -232,15 +239,15 @@ mac(){
         vim) helpme 3 ;;
         gvim) helpme 3 ;;
         emacs) helpme 3 ;;
-        pycharm) helpme 3 ;;          
+        pycharm) helpme 3 ;;
         chrome) helpme 3 ;;
         chromium) helpme 3 ;;
         brave) helpme 3 ;;
         firefox) helpme 3 ;;
-        telegram) helpme 3 ;; 
+        telegram) helpme 3 ;;
         discord) helpme 3 ;;
         signal) helpme 3 ;;
-        slack) helpme 3 ;; 
+        slack) helpme 3 ;;
         uGet) helpme 3 ;;
         qBitorrent) helpme 3 ;;
         youtube-dl) helpme 3 ;;
@@ -250,17 +257,17 @@ mac(){
         gimp) helpme 3 ;;
         virtualbox) helpme 3 ;;
         gParted) helpme 3 ;;
-        steam) helpme 3 ;; 
+        steam) helpme 3 ;;
         vlc) helpme 3 ;;
         dragonplayer) helpme 3 ;;
         kdenlive) helpme 3 ;;
         obs) helpme 3 ;;
         kazam) helpme 3 ;;
-        handbrake) helpme 3 ;;   
+        handbrake) helpme 3 ;;
         audacity) helpme 3 ;;
-        clementine) helpme 3 ;; 
-        *) helpme 6
-esac
+        clementine) helpme 3 ;;
+        *) helpme 4
+    esac
 }
 
 slackware(){
@@ -273,13 +280,13 @@ slackware(){
         pip) helpme 3 ;;
         npm) helpme 3 ;;
         nvm) helpme 3 ;;
-        gcc) helpme 3 ;;     
+        gcc) helpme 3 ;;
         java) helpme 3 ;;
         go) helpme 3 ;;
         python) helpme 3 ;;
         scala) helpme 3 ;;
         php) helpme 3 ;;
-        node) helpme 3 ;;       
+        node) helpme 3 ;;
         django) helpme 3 ;;
         flask) helpme 3 ;;
         scrappy) helpme 3 ;;
@@ -296,15 +303,15 @@ slackware(){
         vim) helpme 3 ;;
         gvim) helpme 3 ;;
         emacs) helpme 3 ;;
-        pycharm) helpme 3 ;;          
+        pycharm) helpme 3 ;;
         chrome) helpme 3 ;;
         chromium) helpme 3 ;;
         brave) helpme 3 ;;
         firefox) helpme 3 ;;
-        telegram) helpme 3 ;; 
+        telegram) helpme 3 ;;
         discord) helpme 3 ;;
         signal) helpme 3 ;;
-        slack) helpme 3 ;; 
+        slack) helpme 3 ;;
         uGet) helpme 3 ;;
         qBitorrent) helpme 3 ;;
         youtube-dl) helpme 3 ;;
@@ -314,17 +321,17 @@ slackware(){
         gimp) helpme 3 ;;
         virtualbox) helpme 3 ;;
         gParted) helpme 3 ;;
-        steam) helpme 3 ;; 
+        steam) helpme 3 ;;
         vlc) helpme 3 ;;
         dragonplayer) helpme 3 ;;
         kdenlive) helpme 3 ;;
         obs) helpme 3 ;;
         kazam) helpme 3 ;;
-        handbrake) helpme 3 ;;   
+        handbrake) helpme 3 ;;
         audacity) helpme 3 ;;
-        clementine) helpme 3 ;; 
-        *) helpme 6
-esac
+        clementine) helpme 3 ;;
+        *) helpme 4
+    esac
 }
 
 mandriva(){
@@ -337,13 +344,13 @@ mandriva(){
         pip) helpme 3 ;;
         npm) helpme 3 ;;
         nvm) helpme 3 ;;
-        gcc) helpme 3 ;;     
+        gcc) helpme 3 ;;
         java) helpme 3 ;;
         go) helpme 3 ;;
         python) helpme 3 ;;
         scala) helpme 3 ;;
         php) helpme 3 ;;
-        node) helpme 3 ;;       
+        node) helpme 3 ;;
         django) helpme 3 ;;
         flask) helpme 3 ;;
         scrappy) helpme 3 ;;
@@ -360,15 +367,15 @@ mandriva(){
         vim) helpme 3 ;;
         gvim) helpme 3 ;;
         emacs) helpme 3 ;;
-        pycharm) helpme 3 ;;          
+        pycharm) helpme 3 ;;
         chrome) helpme 3 ;;
         chromium) helpme 3 ;;
         brave) helpme 3 ;;
         firefox) helpme 3 ;;
-        telegram) helpme 3 ;; 
+        telegram) helpme 3 ;;
         discord) helpme 3 ;;
         signal) helpme 3 ;;
-        slack) helpme 3 ;; 
+        slack) helpme 3 ;;
         uGet) helpme 3 ;;
         qBitorrent) helpme 3 ;;
         youtube-dl) helpme 3 ;;
@@ -378,17 +385,17 @@ mandriva(){
         gimp) helpme 3 ;;
         virtualbox) helpme 3 ;;
         gParted) helpme 3 ;;
-        steam) helpme 3 ;; 
+        steam) helpme 3 ;;
         vlc) helpme 3 ;;
         dragonplayer) helpme 3 ;;
         kdenlive) helpme 3 ;;
         obs) helpme 3 ;;
         kazam) helpme 3 ;;
-        handbrake) helpme 3 ;;   
+        handbrake) helpme 3 ;;
         audacity) helpme 3 ;;
-        clementine) helpme 3 ;; 
-        *) helpme 6
-esac
+        clementine) helpme 3 ;;
+        *) helpme 4
+    esac
 }
 
 suse(){
@@ -401,13 +408,13 @@ suse(){
         pip) helpme 3 ;;
         npm) helpme 3 ;;
         nvm) helpme 3 ;;
-        gcc) helpme 3 ;;     
+        gcc) helpme 3 ;;
         java) helpme 3 ;;
         go) helpme 3 ;;
         python) helpme 3 ;;
         scala) helpme 3 ;;
         php) helpme 3 ;;
-        node) helpme 3 ;;       
+        node) helpme 3 ;;
         django) helpme 3 ;;
         flask) helpme 3 ;;
         scrappy) helpme 3 ;;
@@ -424,15 +431,15 @@ suse(){
         vim) helpme 3 ;;
         gvim) helpme 3 ;;
         emacs) helpme 3 ;;
-        pycharm) helpme 3 ;;          
+        pycharm) helpme 3 ;;
         chrome) helpme 3 ;;
         chromium) helpme 3 ;;
         brave) helpme 3 ;;
         firefox) helpme 3 ;;
-        telegram) helpme 3 ;; 
+        telegram) helpme 3 ;;
         discord) helpme 3 ;;
         signal) helpme 3 ;;
-        slack) helpme 3 ;; 
+        slack) helpme 3 ;;
         uGet) helpme 3 ;;
         qBitorrent) helpme 3 ;;
         youtube-dl) helpme 3 ;;
@@ -442,17 +449,17 @@ suse(){
         gimp) helpme 3 ;;
         virtualbox) helpme 3 ;;
         gParted) helpme 3 ;;
-        steam) helpme 3 ;; 
+        steam) helpme 3 ;;
         vlc) helpme 3 ;;
         dragonplayer) helpme 3 ;;
         kdenlive) helpme 3 ;;
         obs) helpme 3 ;;
         kazam) helpme 3 ;;
-        handbrake) helpme 3 ;;   
+        handbrake) helpme 3 ;;
         audacity) helpme 3 ;;
-        clementine) helpme 3 ;; 
-        *) helpme 6
-esac
+        clementine) helpme 3 ;;
+        *) helpme 4
+    esac
 }
 
 gentoo(){
@@ -465,13 +472,13 @@ gentoo(){
         pip) helpme 3 ;;
         npm) helpme 3 ;;
         nvm) helpme 3 ;;
-        gcc) helpme 3 ;;     
+        gcc) helpme 3 ;;
         java) helpme 3 ;;
         go) helpme 3 ;;
         python) helpme 3 ;;
         scala) helpme 3 ;;
         php) helpme 3 ;;
-        node) helpme 3 ;;       
+        node) helpme 3 ;;
         django) helpme 3 ;;
         flask) helpme 3 ;;
         scrappy) helpme 3 ;;
@@ -488,15 +495,15 @@ gentoo(){
         vim) helpme 3 ;;
         gvim) helpme 3 ;;
         emacs) helpme 3 ;;
-        pycharm) helpme 3 ;;          
+        pycharm) helpme 3 ;;
         chrome) helpme 3 ;;
         chromium) helpme 3 ;;
         brave) helpme 3 ;;
         firefox) helpme 3 ;;
-        telegram) helpme 3 ;; 
+        telegram) helpme 3 ;;
         discord) helpme 3 ;;
         signal) helpme 3 ;;
-        slack) helpme 3 ;; 
+        slack) helpme 3 ;;
         uGet) helpme 3 ;;
         qBitorrent) helpme 3 ;;
         youtube-dl) helpme 3 ;;
@@ -506,17 +513,17 @@ gentoo(){
         gimp) helpme 3 ;;
         virtualbox) helpme 3 ;;
         gParted) helpme 3 ;;
-        steam) helpme 3 ;; 
+        steam) helpme 3 ;;
         vlc) helpme 3 ;;
         dragonplayer) helpme 3 ;;
         kdenlive) helpme 3 ;;
         obs) helpme 3 ;;
         kazam) helpme 3 ;;
-        handbrake) helpme 3 ;;   
+        handbrake) helpme 3 ;;
         audacity) helpme 3 ;;
-        clementine) helpme 3 ;; 
-        *) helpme 6
-esac
+        clementine) helpme 3 ;;
+        *) helpme 4
+    esac
 }
 
 fedora(){
@@ -529,13 +536,13 @@ fedora(){
         pip) helpme 3 ;;
         npm) helpme 3 ;;
         nvm) helpme 3 ;;
-        gcc) helpme 3 ;;     
+        gcc) helpme 3 ;;
         java) helpme 3 ;;
         go) helpme 3 ;;
         python) helpme 3 ;;
         scala) helpme 3 ;;
         php) helpme 3 ;;
-        node) helpme 3 ;;       
+        node) helpme 3 ;;
         django) helpme 3 ;;
         flask) helpme 3 ;;
         scrappy) helpme 3 ;;
@@ -552,15 +559,15 @@ fedora(){
         vim) helpme 3 ;;
         gvim) helpme 3 ;;
         emacs) helpme 3 ;;
-        pycharm) helpme 3 ;;          
+        pycharm) helpme 3 ;;
         chrome) helpme 3 ;;
         chromium) helpme 3 ;;
         brave) helpme 3 ;;
         firefox) helpme 3 ;;
-        telegram) helpme 3 ;; 
+        telegram) helpme 3 ;;
         discord) helpme 3 ;;
         signal) helpme 3 ;;
-        slack) helpme 3 ;; 
+        slack) helpme 3 ;;
         uGet) helpme 3 ;;
         qBitorrent) helpme 3 ;;
         youtube-dl) helpme 3 ;;
@@ -570,502 +577,367 @@ fedora(){
         gimp) helpme 3 ;;
         virtualbox) helpme 3 ;;
         gParted) helpme 3 ;;
-        steam) helpme 3 ;; 
+        steam) helpme 3 ;;
         vlc) helpme 3 ;;
         dragonplayer) helpme 3 ;;
         kdenlive) helpme 3 ;;
         obs) helpme 3 ;;
         kazam) helpme 3 ;;
-        handbrake) helpme 3 ;;   
+        handbrake) helpme 3 ;;
         audacity) helpme 3 ;;
-        clementine) helpme 3 ;; 
-        *) helpme 6
-esac
+        clementine) 
+        su -c "dnf install gcc-c++ taglib-devel gettext boost-devel \
+    qt-devel cmake gstreamer1-devel gstreamer1-plugins-base-devel glew-devel \
+    libgpod-devel qjson-devel libplist-devel \
+    libusbmuxd-devel libmtp-devel protobuf-devel protobuf-compiler cryptopp-devel \
+    libcdio-devel fftw-devel sparsehash-devel sqlite-devel \
+    pulseaudio-libs-devel libchromaprint-devel cmake git"
+    git clone https://github.com/clementine-player/Clementine.git
+cd Clementine/bin
+cmake ../
+make
+sudo make install
+ ;;
+        *) helpme 4
+    esac
 }
 
 debian(){
-    start $1 "mac"
+    start $1 "debian"
     case $1 in
-        clang) helpme 3 
+        clang) sudo apt install clang
         check $?;;
-        wget) helpme 3 
+        wget) sudo apt update
+              sudo apt install wget
         check $?;;
-        curl) helpme 3 
+        curl) sudo apt update
+              sudo apt install curl
         check $?;;
-        git) helpme 3 
+        git) sudo apt install git-all
         check $?;;
-        pip) helpme 3 
+        pip) sudo apt install python3-pip
         check $?;;
-        npm) helpme 3 
+        npm) sudo apt install nodejs npm
         check $?;;
-        nvm) helpme 3 
+        nvm) helpme 3
         check $?;;
-        gcc) helpme 3 
-        check $?;;     
-        java) helpme 3 
+        gcc) sudo apt install gcc g++
         check $?;;
-        go) helpme 3 
+        java) sudo apt install default-jre
+              sudo apt install default-jdk
         check $?;;
-        python) helpme 3 
+        go)
+            wget -q https://golang.org/dl/go1.15.6.linux-amd64.tar.gz
+            tar -C /usr/local -xzf go1.15.6.linux-amd64.tar.gz
+            export PATH=$PATH:/usr/local/go/bin
         check $?;;
-        scala) helpme 3 
+        python) sudo apt update
+                sudo apt install python
+
         check $?;;
-        php) helpme 3 
+        scala) sudo apt install default-jdk
+               echo "deb https://dl.bintray.com/sbt/debian /" | sudo tee -a /etc/apt/sources.list.d/sbt.list
+               curl -sL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x2EE0EA64E40A89B84B2DF73499E82A75642AC823" | sudo apt-key add
+               sudo apt update
+               sudo apt install sbt
         check $?;;
-        node) helpme 3 
-        check $?;;       
-        django) helpme 3 
+        php)
+            sudo apt install php libapache2-mod-php php-mcrypt php-mysql -y
         check $?;;
-        flask) helpme 3 
+        node)
+            curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash –
+            sudo apt install -y nodejs
         check $?;;
-        scrappy) helpme 3 
+        django) sudo apt update
+                sudo apt install python3 python3-pip
+                pip3 install django
         check $?;;
-        reactjs) helpme 3 
+        flask) sudo apt update
+                sudo apt install python3 python3-pip
+               pip3 install flask
         check $?;;
-        laravel) helpme 3 
+        scrappy) sudo apt update
+                 sudo apt install --assume-yes python3-scrapy
         check $?;;
-        LAMP) helpme 3 
+        reactjs) helpme 3
         check $?;;
-        MEAN) helpme 3 
+        laravel) sudo apt update
+                 sudo apt install mariadb-server mariadb-client
+                 sudo systemctl start mariadb
+                 sudo systemctl enable mariadb
+                 sudo mysql_secure_installation
+                 sudo mydql -u root -p
+                 sudo apt install php php-bcmath php-json php-mbstring php-mysql php-tokenizer php-xml php-zip
+                 sudo apt install composer
+                 composer global require laravel/installer
+                 echo "export PATH=$PATH:~/.config/composer/vendor/bin" >> ~/.bashrc
         check $?;;
-        apache) helpme 3 
+        LAMP)
+            echo "Installing Apache2"
+            sudo apt update
+            sudo apt install apache2 -y
+            sudo apache2ctl configtest
+            
+            echo "Adjusting Firewall"
+            sudo ufw app list
+            sudo ufw app info "Apache Full"
+            sudo ufw allow in "Apache Full"
+            
+            echo "Installing Mysql"
+            sudo apt install mysql-server -y
+            
+            echo "Installing PHP"
+            sudo apt install php libapache2-mod-php php-mcrypt php-mysql -y
+            
+            echo "Inastalling phpmyadmin..."
+            sudo apt update
+            sudo apt install phpmyadmin php-mbstring php-gettext
+            sudo phpenmod mcrypt
+            sudo phpenmod mbstring
+            sudo systemctl restart apache2
+            sudo systemctl enable apache2
         check $?;;
-        ngnix) helpme 3 
+        MEAN)
+            echo "Installing MongoDB"
+            sudo apt install gnupg -y
+            wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+            sudo apt update
+            echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+            sudo apt install -y mongodb-org
+            sudo systemctl start mongod
+            service mongod status
+            echo "Installing NodeJS"
+            curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash –
+            sudo apt install -y nodejs
+            sudo apt install build-essential
         check $?;;
-        phpmyadmin) helpme 3 
+        apache)
+            sudo apt update
+            sudo apt install apache2 -y
+            sudo apache2ctl configtest
+            
+            echo "Adjusting Firewall"
+            sudo ufw app list
+            sudo ufw app info "Apache Full"
+            sudo ufw allow in "Apache Full"
         check $?;;
-        anaconda) helpme 3 
+        ngnix)
+            sudo apt update
+            sudo apt install nginx
+            
+            echo "Adjusting Firewall"
+            sudo ufw allow 'Nginx HTTP'
+            
+            echo "Enabling Ngnix"
+            systemctl enable nginx
+            systemctl restart nginx
+            systemctl status nginx
         check $?;;
-        vscode) helpme 3 
+        phpmyadmin)
+            sudo apt update
+            sudo apt install phpmyadmin php-mbstring php-gettext
+            sudo phpenmod mcrypt
+            sudo phpenmod mbstring
+            sudo systemctl restart apache2
+            sudo systemctl enable apache2
         check $?;;
-        sublimetext) helpme 3 
+        anaconda)
+            cd ~/tmp
+            curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
+            bash Anaconda3-2019.03-Linux-x86_64.sh
+            source ~/.bashrc
         check $?;;
-        vim) helpme 3 
+        vscode)
+            sudo apt install software-properties-common apt-transport-https wget
+            wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+            sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+            sudo apt update
+            sudo apt install code
         check $?;;
-        gvim) helpme 3 
+        sublimetext)
+            sudo apt install apt-transport-https ca-certificates curl software-properties-common
+            curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+            sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+            sudo apt update
+            sudo apt install sublime-text
         check $?;;
-        emacs) helpme 3 
+        vim) sudo apt install vim
         check $?;;
-        pycharm) helpme 3 
-        check $?;;          
-        chrome) helpme 3 
+        gvim) sudo apt install vim-gtk3
         check $?;;
-        chromium) helpme 3 
+        emacs)
+            sudo add-apt-repository ppa:kelleyk/emacs
+            sudo apt update
+            sudo apt install emacsVERSION
         check $?;;
-        brave) helpme 3 
+        pycharm)
+            wget -q https://download.jetbrains.com/python/pycharm-community-2020.3.2.tar.gz?_ga=2.51716457.1746728834.1610096895-1594661800.1610096895
+            tar -xzf pycharm-community-2020.1.1.tar.gz
+            cd pycharm-community-2020.1.1
+            cd bin
+            chmod u+x pycharm.sh
         check $?;;
-        firefox) helpme 3 
+        chrome)
+            wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i google-chrome-stable_current_amd64.deb
         check $?;;
-        telegram) helpme 3 
-        check $?;; 
-        discord) helpme 3 
+        chromium)  sudo apt install -y chromium-browser
         check $?;;
-        signal) helpme 3 
+        brave)
+            sudo apt install apt-transport-https curl
+            curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+            echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
         check $?;;
-        slack) helpme 3 
-        check $?;; 
-        uGet) helpme 3 
+        firefox)
+        sudo apt install -y firefox
         check $?;;
-        qBitorrent) helpme 3 
+        telegram)
+            wget -O- https://telegram.org/dl/desktop/linux | sudo tar xJ -C /opt/
+            sudo ln -s /opt/Telegram/Telegram /usr/local/bin/telegram-desktop
+            
         check $?;;
-        youtube-dl) helpme 3 
+        discord)
+            sudo apt update
+            $ sudo apt install gdebi-core wget
+            sudo gdebi ~/discord.deb -y
         check $?;;
-        libreoffice) helpme 3 
+        signal)
+            curl https://updates.signal.org/desktop/apt/keys.asc |\
+            sudo apt-key add -
+            echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" |\
+            sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
+            sudo apt update && sudo apt install signal-desktop
         check $?;;
-        krita) helpme 3 
+        slack)
+        wget https://downloads.slack-edge.com/linux_releases/slack-desktop-4.12.2-amd64.deb
+        sudo dpkg -i slack-desktop-*.deb
         check $?;;
-        inkscape) helpme 3 
+        uGet)
+            sudo add-apt-repository ppa:plushuang-tw/uget-stable
+            sudo apt update
+            sudo apt install uget
         check $?;;
-        gimp) helpme 3 
+        qBitorrent) sudo apt install qbittorrent
         check $?;;
-        virtualbox) helpme 3 
+        youtube-dl) sudo apt install youtube-dl
         check $?;;
-        gParted) helpme 3 
+        libreoffice)
+            sudo add-apt-repository ppa:libreoffice/ppa
+            sudo apt update
+            sudo apt install libreoffice
         check $?;;
-        steam) helpme 3 
-        check $?;; 
-        vlc) helpme 3 
+        krita)
+            sudo add-apt-repository ppa:kritalime/ppa
+            sudo apt update
+            sudo apt-get install krita
         check $?;;
-        dragonplayer) helpme 3 
+        inkscape)
+            sudo add-apt-repository ppa:inkscape.dev/stable
+            sudo apt update
+            sudo apt install inkscape
         check $?;;
-        kdenlive) helpme 3 
+        gimp)
+            sudo add-apt-repository ppa:otto-kesselgulasch/gimp
+            sudo apt update
+            sudo apt install gimp
         check $?;;
-        obs) helpme 3 
+        virtualbox)
+            sudo apt update
+            sudo apt install virtualbox
+            sudo apt install virtualbox—ext–pack
         check $?;;
-        kazam) helpme 3 
+        gParted)
+        sudo apt install gparted
         check $?;;
-        handbrake) helpme 3 
-        check $?;;   
-        audacity) helpme 3 
+        steam) 
+        sudo apt update
+        sudo apt install steam
         check $?;;
-        clementine) helpme 3 
-        check $?;; 
-        *) helpme 6
-esac
+        vlc)  sudo apt install vlc
+        check $?;;
+        dragonplayer)
+        sudo apt update
+sudo apt install dragonplayer        
+        check $?;;
+        kdenlive)
+        sudo add-apt-repository ppa:kdenlive/kdenlive-stable
+         sudo apt update
+          sudo apt install kdenlive
+        check $?;;
+        obs) 
+        sudo apt update
+        sudo apt install obs-studio
+        check $?;;
+        kazam) sudo apt install kazam
+        check $?;;
+        handbrake) 
+        sudo apt install handbrake
+        check $?;;
+        audacity) 
+        sudo apt update
+        sudo apt install audacity
+        check $?;;
+        clementine) 
+        sudo add-apt-repository ppa:me-davidsansome/clementine
+        sudo apt update
+        sudo apt install clementine
+        check $?;;
+        *) helpme 4
+    esac
 }
 
 
 sub_menu(){
-array=("$@")
-total=${#array[*]}
-while :
-do
-
-clear
-
-for (( i=1; i<=$(( $total - 1 )); i++ ))
-do 
-    echo -e "${LYellow}$i) ${LBlue}${array[$i]}"
-done
-
-read -p "Enter your choice [1-$(($total - 1))] : " input
-
-for elem in ${input[@]}
-do 
-${array[0]} ${array[$elem]}
-done
-
-done
+    array=("$@")
+    total=${#array[*]}
+    while :
+    do
+        
+        clear
+        
+        for (( i=1; i<=$(( $total - 1 )); i++ ))
+        do
+            echo -e "${LYellow}$i) ${LBlue}${array[$i]^}"
+        done
+        echo -e "${Red}.) ${LBlue}Back"
+        echo -e "${Red}q) ${LBlue}Quit"
+        read -p "Enter your choice [1-$(($total - 1))] : " input
+        
+        for elem in ${input[@]}
+        do
+            if [[ "$elem" -ge 1 && "$elem" -lt $total ]] ; then ${array[0]} ${array[$elem]};
+                elif [[ $elem = "q" ]] || [[ $elem = "Q" ]] ; then quit
+                elif [[ $elem = "." ]] ; then main_menu ${array[0]} ${menu[@]}
+            else clear ;
+            fi
+            
+        done
+        
+    done
 }
 
 main_menu(){
-array=("$@")
-total=${#array[*]}
-while :
-do
-
-
-
-for (( i=1; i<=$(( $total - 1 )); i++ ))
-do 
-    echo -e "${LYellow}$i) ${LBlue}${array[$i]}"
-done
-
-read -r -p "Enter your choice [1-$(($total - 1))] : " input
-if [[ "$input" -ge 1 && "$input" -lt $total ]] ; then sub=${array[$input]}[@]; sub_menu ${array[0]} ${!sub};
-elif [[ $input = "q" ]] || [[ $input = "Q" ]] ; then quit
-else clear ;
-fi
-
-
-done
+    array=("$@")
+    total=${#array[*]}
+    while :
+    do
+        clear
+        for (( i=1; i<=$(( $total - 1 )); i++ ))
+        do
+            echo -e "${LYellow}$i) ${LBlue}${array[$i]^}"
+        done
+        echo -e "${Red}q) ${LBlue}Quit"
+        read -r -p "Enter your choice [1-$(($total - 1))] : " input
+        if [[ "$input" -ge 1 && "$input" -lt $total ]] ; then sub=${array[$input]}[@]; sub_menu ${array[0]} ${!sub};
+            elif [[ $input = "q" ]] || [[ $input = "Q" ]] ; then quit
+        else clear ;
+        fi
+        
+    done
 }
 
-
-
-        # echo ""
-        # echo -e "${IWhite}---------------------------------"
-        # echo "      Installation Menu            "
-        # echo "---------------------------------"
-        # echo "1. Clang"
-        # echo "2. VS Code"
-        # echo "3. Sublime Text"
-        # echo "4. Libre Office"
-        # echo "5. LAMP Stack"
-        # echo "6. MEAN Stack"
-        # echo "7. NodeJS"
-        # echo "8. Golang"
-        # echo "9. Virtual Box"
-        # echo "10. Kazam"
-        # echo "11. qBittorrent"
-        # echo "12. Chrome"
-        # echo "13. Chromium"
-        # echo "14. Mozilla Firefox"
-        # echo "15. Brave"
-        # echo "16. VLC"
-        # echo "17. Vim"
-        # echo "18. Emacs"
-        # echo "19. Gnome-tweaks"
-        # echo "20. Pycharm"
-        # echo "21. Anaconda"
-        # echo "22. uGet"
-        # echo "23. Signal Messenger"
-        # echo "24. Telegram"
-        # echo "25. Discord"
-        # echo "26. GIMP"
-        # echo "27. Inkscape"
-        # echo "28. Git"
-        # echo "29. NGNIX"
-        # echo "30. Krita"
-        # echo -e "Enter ${URed}quit${Reset} or ${URed}Ctrl+C${Reset} to exit"
-        # echo "============================"
-        
-        
-        # case $c in
-        #     1)
-        #         start "Clang"
-        #         sudo apt install clang
-        #         check $?
-                
-        #     ;;
-            
-        #     2)
-        #         start "VS Code"
-        #         sudo apt install software-properties-common apt-transport-https wget
-        #         wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-        #         sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
-        #         sudo apt update
-        #         sudo apt install code
-        #         check $?
-        #     ;;
-            
-        #     3)
-        #         start "Sublime Text"
-        #         sudo apt install apt-transport-https ca-certificates curl software-properties-common
-        #         curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-        #         sudo add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
-        #         sudo apt update
-        #         sudo apt install sublime-text
-        #         check $?
-        #     ;;
-            
-        #     4)
-        #         start "Libre Office"
-        #         sudo add-apt-repository ppa:libreoffice/ppa
-        #         sudo apt update
-        #         sudo apt install libreoffice
-        #         check $?
-        #     ;;
-            
-        #     5)
-        #         start "LAMP Stack"
-        #         echo "Installing Apache2"
-        #         sudo apt update
-        #         sudo apt install apache2 -y
-        #         sudo apache2ctl configtest
-                
-        #         echo "Adjusting Firewall"
-        #         sudo ufw app list
-        #         sudo ufw app info "Apache Full"
-        #         sudo ufw allow in "Apache Full"
-                
-        #         echo "Installing Mysql"
-        #         sudo apt install mysql-server -y
-                
-        #         echo "Installing PHP"
-        #         sudo apt install php libapache2-mod-php php-mcrypt php-mysql -y
-                
-        #         echo "Inastalling phpmyadmin..."
-        #         sudo apt update
-        #         sudo apt install phpmyadmin php-mbstring php-gettext
-        #         sudo phpenmod mcrypt
-        #         sudo phpenmod mbstring
-        #         sudo systemctl restart apache2
-                
-        #         sudo systemctl start apache2
-        #         echo "Installation complete"
-        #         sudo systemctl status apache2
-        #         check $?
-        #     ;;
-            
-        #     6)
-        #         start "MEAN Stack"
-        #         sudo apt install gnupg -y
-        #         wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
-        #         sudo apt update
-        #         echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
-        #         sudo apt install -y mongodb-org
-        #         sudo systemctl start mongod
-        #         service mongod status
-        #         echo "MEAN stack Installed."
-        #     ;;
-            
-        #     7)
-        #         start "NodeJS"
-        #         curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash –
-        #         sudo apt install -y nodejs
-        #         sudo apt install build-essential
-        #         check $?
-        #     ;;
-            
-        #     8)
-        #         start "Go"
-        #         wget https://golang.org/dl/go1.15.6.linux-amd64.tar.gz
-        #         tar -C /usr/local -xzf go1.15.6.linux-amd64.tar.gz
-        #         export PATH=$PATH:/usr/local/go/bin
-        #         check $?
-        #     ;;
-            
-        #     9)
-        #         start "Virtual Box"
-        #         sudo apt update
-        #         sudo apt install virtualbox
-        #         sudo apt install virtualbox—ext–pack
-        #         check $?
-        #     ;;
-            
-        #     10)
-        #         start "Kazam"
-        #         sudo apt install kazam
-        #         check $?
-        #     ;;
-            
-        #     11)
-        #         start "qBitorrent"
-        #         sudo apt install qbittorrent
-        #         check $?
-        #     ;;
-            
-            
-        #     12)
-        #         start "Chrome"
-        #         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        #         sudo dpkg -i google-chrome-stable_current_amd64.deb
-        #         check $?
-        #     ;;
-            
-        #     13)
-        #         start "Chromium"
-        #         sudo apt install -y chromium-browser
-        #     check $?;;
-            
-            
-        #     14)
-        #         start "Firefox"
-        #         sudo apt install -y firefox
-        #     check $?;;
-            
-        #     15)
-        #         start "Brave"
-        #         sudo apt install apt-transport-https curl
-        #         curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
-        #         echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main" | sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-        #         check $?
-        #     ;;
-            
-        #     16)
-        #         start "VLC"
-        #         sudo apt install vlc
-        #     check $?
-        #     ;;
-            
-        #     17)
-        #         start "VIM"
-        #         sudo apt install vim
-        #     check $?
-        #     ;;
-            
-        #     18)
-        #         start "EMACS"
-        #         sudo add-apt-repository ppa:kelleyk/emacs
-        #         sudo apt update
-        #         sudo apt install emacsVERSION
-        #     check $?
-        #     ;;
-            
-        #     19)
-        #         start "gnome tweaks"
-        #         sudo apt install gnome-tweaks
-        #     check $?
-        #     ;;
-            
-        #     20)
-        #         start "pyCharm"
-        #         wget -q https://download.jetbrains.com/python/pycharm-community-2020.3.2.tar.gz?_ga=2.51716457.1746728834.1610096895-1594661800.1610096895
-        #         tar -xzf pycharm-community-2020.1.1.tar.gz
-        #         cd pycharm-community-2020.1.1
-        #         cd bin
-        #         chmod u+x pycharm.sh
-        #         check $?
-        #     ;;
-            
-        #     21)
-        #         start "Anaconda"
-        #         cd /tmp
-        #         curl -O https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh
-        #         bash Anaconda3-2019.03-Linux-x86_64.sh
-        #         source ~/.bashrc
-        #     check $?
-        #     ;;
-            
-        #     22)
-        #         start "uGet"
-        #         sudo add-apt-repository ppa:plushuang-tw/uget-stable
-        #         sudo apt update
-        #         sudo apt install uget
-        #     check $?
-        #     ;;
-            
-        #     23)
-        #         start "Signal"
-        #         wget -O- https://updates.signal.org/desktop/apt/keys.asc |\
-        #         sudo apt-key add -
-        #         echo "deb [arch=amd64] https://updates.signal.org/desktop/apt xenial main" |\
-        #         sudo tee -a /etc/apt/sources.list.d/signal-xenial.list
-        #         sudo apt update && sudo apt install signal-desktop
-        #     check $?
-        #     ;;
-            
-        #     24)
-        #         start "Telegram"
-        #         wget -O- https://telegram.org/dl/desktop/linux | sudo tar xJ -C /opt/
-        #         sudo ln -s /opt/Telegram/Telegram /usr/local/bin/telegram-desktop
-        #     check $?
-        #     ;;
-            
-        #     25)
-        #         start "Discord"
-        #         sudo apt update
-        #         $ sudo apt install gdebi-core wget
-        #         sudo gdebi ~/discord.deb -y
-        #     check $?
-        #     ;;
-            
-        #     26)
-        #         start "GIMP"
-        #         sudo add-apt-repository ppa:otto-kesselgulasch/gimp
-        #         sudo apt update
-        #         sudo apt install gimp
-        #     check $?
-        #     ;;
-            
-        #     27)
-        #         start "Inkscape"
-        #         sudo add-apt-repository ppa:inkscape.dev/stable
-        #         sudo apt update
-        #         sudo apt install inkscape
-        #     check $?;;
-            
-        #     28)
-        #         start "Git"
-        #         sudo apt install git-all
-        #     check $?
-        #     ;;
-            
-        #     29)
-        #         start "Ngnix"
-        #         sudo apt update
-        #         sudo apt install nginx
-
-        #         echo "Adjusting Firewall"
-        #         sudo ufw allow 'Nginx HTTP'
-
-        #         echo "Enabling Ngnix"
-        #         systemctl enable nginx
-        #         systemctl restart nginx
-        #         systemctl status nginx
-        #     check $?
-        #     ;;
-            
-        #     30)
-        #         start "Krita"
-        #         sudo add-apt-repository ppa:kritalime/ppa
-        #         sudo apt update
-        #         sudo apt-get install krita
-        #     check $?
-        #     ;;
-            
-        #     quit)
-        #         echo -e "${BGreen}Quiting ..."
-        #         echo "Bye"
-        #     break;;
-            
-        #     *) Pause "Select between 1 to 30 only."
-        # esac
-    
-
-echo ""
-echo -e "${ICyan} ========================================================= "
+echo -e "${ICyan}"
+echo " ========================================================= "
 echo " |                                                       | "
 echo " |           Installation Script in Bash                 | "
 echo " |                                                       | "
@@ -1073,22 +945,22 @@ echo " ========================================================= "
 echo ""
 echo -e "${UGreen}https://ahampriyanshu.github.io"
 echo "mailto:ahampriyanshu@gmail.com"
-echo -e "${Reset}"
-echo -e "${BYellow}Detecting System Configuration"
-echo -e "${Reset}"
-# progressbar
-echo "" 
-        
+echo ""
+echo -e "${BYellow}Detecting System Configuration${Reset}"
+echo ""
+progressbar
+echo ""
 
-if [ -f /etc/lsb-release ]; then displayInfo 0 "/etc/lsb-release" debian 
-    elif [ -f /etc/debian_version ]; then debian "/etc/debian_version"
-    elif [ -f /etc/fedora-release ]; then fedora "/etc/fedora-release"
-    elif [ -f /etc/redhat-release ]; then fedora "/etc/redhat-release"
-    elif [ -f /etc/centos-release ]; then fedora "/etc/centos-release"
-    elif [ -f /etc/gentoo-release ]; then gentoo "/etc/gentoo-release"
-    elif [ -f /etc/SuSE-release ];   then suse   "/etc/SuSE-release"
-    elif [ -f /etc/slackware-version ]; then slackware "/etc/slackware-version"
-    elif [ -f /etc/mandriva-release ]; then mandriva "/etc/mandriva-release"
-    elif system_profiler SPSoftwareDataType; then mac "system_profiler SPSoftwareDataType"
+
+if [ -f /etc/lsb-release ]; then displayInfo 0 "/etc/lsb-release" debian
+    elif [ -f /etc/debian_version ]; then displayInfo 0 "/etc/debian_version" debian
+    elif [ -f /etc/fedora-release ]; then displayInfo 0 "/etc/fedora-release" fedora
+    elif [ -f /etc/redhat-release ]; then displayInfo 0 "/etc/redhat-release" fedora
+    elif [ -f /etc/centos-release ]; then displayInfo 0 "/etc/centos-release" fedora
+    elif [ -f /etc/gentoo-release ]; then displayInfo 0 "/etc/gentoo-release" gentoo
+    elif [ -f /etc/SuSE-release ];   then displayInfo 0 "/etc/SuSE-release" suse
+    elif [ -f /etc/slackware-version ]; then displayInfo 0 "/etc/slackware-version" slackware
+    elif [ -f /etc/mandriva-release ]; then displayInfo 0 "/etc/mandriva-release" mandriva
+    elif system_profiler SPSoftwareDataType; then displayInfo 0 "system_profiler SPSoftwareDataType" mac
 else helpme 2
 fi
