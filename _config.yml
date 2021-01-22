@@ -10,10 +10,3 @@ telegram: ahampriyanshu
 theme: jekyll-theme-cayman
 show_downloads: true
 url-pretty: "https://ahampriyanshu.github.io/"
-
-share-links-active:
-  twitter: true
-  facebook: true
-  linkedin: true
-  reddit: true
-  telegram: true
