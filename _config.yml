@@ -1,1 +1,19 @@
+
+title: scripts_101
+email: ahampriyanshu@gmail.com
+description: automating some boring stuff
+twitter_username: ahampriyanshu
+github_username: ahampriyanshu
+reddit: ahampriyanshu
+linkedin: ahampriyanshu
+telegram: ahampriyanshu
 theme: jekyll-theme-cayman
+show_downloads: true
+url-pretty: "https://ahampriyanshu.github.io/"
+
+share-links-active:
+  twitter: true
+  facebook: true
+  linkedin: true
+  reddit: true
+  telegram: true
