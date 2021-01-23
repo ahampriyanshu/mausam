@@ -104,18 +104,25 @@ int main(int argc, char **argv)
     }
     float total;
     total = tsum + psum;
+    char ts[10], ps[10], tt[10];
+    gcvt(tsum*100, 8, ts);
+    gcvt(psum*100, 8, ps);
+    gcvt(total*100, 8, tt);
+
+    char prefix[200] = "";
+    sprintf(prefix,"Temporary hardness of water is %s ppm.\nPermanent hardness of water is %s ppm.\nTotal hardness of water is %s ppm.", ts, ps, tt);
 
     GtkWidget *window;
     GtkWidget *addButton;
     GtkWidget *subButton;
-    GtkWidget *grid;
+    GtkWidget *grid; 
     GtkWidget *sum;
 
     gtk_init(&argc, &argv);
 
     //Declarations
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    sum = gtk_label_new("Temporary hardness of water is %f\nPermanent hardness of water is %f\nTotal hardness of water is %f ");
+    sum = gtk_label_new(prefix);
     grid = gtk_grid_new();
 
     //Set Properties
@@ -133,8 +140,8 @@ int main(int argc, char **argv)
 
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
-    gtk_main();
-    fptr = fopen("solution.txt", "wb");
+    gtk_main(); 
+    fptr = fopen("solution.txt", "a+");
     if (fptr == NULL)
     {
         printf("Error while creating the file\n");
@@ -142,7 +149,7 @@ int main(int argc, char **argv)
     }
     fprintf(fptr, "Temprory hardness of given sample of water = %f mg/L or %f ppm\n", tsum * 100, tsum * 100);
     fprintf(fptr, "Permanent hardness of given  sample of water = %f mg/L or %f ppm\n", psum * 100, psum * 100);
-    fprintf(fptr, "Total hardness of given sample of water = %f mg/L or %fppm\n", total * 100, total * 100);
+    fprintf(fptr, "Total hardness of given sample of water = %f mg/L or %fppm\n\n", total * 100, total * 100);
     printf("The answer has been saved as 'soltion.txt' for future reference\n");
     fclose(fptr);
 
