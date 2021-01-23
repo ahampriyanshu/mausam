@@ -2,9 +2,10 @@
 
 * automating some boring stuff
 
-## Setup
+## [Install Script](/linux)
 
-```bash
-git clone https://github.com/ahampriyanshu/scripts_101.git
-```
+## [Youtube-dl-gui](/youtube_dl_gui)
+
+## [Science](/science)
+
 
