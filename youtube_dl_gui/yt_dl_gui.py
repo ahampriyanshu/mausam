@@ -17,7 +17,8 @@ regex = re.compile(
 
 
 file_size = 0
-
+downloadqueue = []
+choices = ["720p","360p","144p","audio"]
 
 def progess(chunk, file_handle, bytes_remaining):
     file_downloaded = (file_size - bytes_remaining)
@@ -25,8 +26,8 @@ def progess(chunk, file_handle, bytes_remaining):
     per_com.config(text=f'{per:.2f} %')
     byte_com.config(text=f'{file_downloaded/(1024*1024):.2f}/{file_size/(1024*1024):.2f} MiB')
 
-def getName(linkk):
-    tube = YouTube(linkk)
+def getName(url):
+    tube = YouTube(url)
     video = tube.streams.first()
     return video.title
 
@@ -66,61 +67,70 @@ def pickfolder():
 def add():
     link = linkText.get()
     if re.match(regex, link) is not None:
-        listbox.insert(END, link)
+        listbox.insert(END, getName(link))
         downloadqueue.append(link)
         linkText.delete(0, END)
     else:
         showinfo("Error","Invalid URL")
 
 
-
 root = Tk()
 root.title("Youtube Video Downloader")
-root.geometry("600x400")
+root.geometry("600x500")
 root.resizable(False, False)
 root.config(background="#ffffff")
 video_Link = StringVar()
 chosenfolder = StringVar()
+
+# create all of the main containers
+top_frame = Frame(root,bg="#ffffff")
+middle_frame = Frame(root,bg="#ffffff")
+bottom_frame = Frame(root,bg="#ffffff")
+bottom2_frame = Frame(root,bg="#ffffff")
+
+top_frame.grid(row=0)
+middle_frame.grid(row=3)
+bottom_frame.grid(row=6)
+bottom2_frame.grid(row=7)
+
 my_font = tkfont.Font(family = "Helvetica", size = 12)
-link_label = Label(root, text="YouTube link",font = my_font, bg="#ffffff",pady=10)
+link_label = Label(top_frame, text="YouTube link",font = my_font, bg="#ffffff",pady=10)
 link_label.grid(row=1, column=0, pady=5,  padx=5)
-linkText = Entry(root, width=40)
+linkText = Entry(top_frame, width=40)
 linkText.grid(row=1, column=1, pady=5,  padx=5, columnspan=2)
-add_B = Button(root, text="Add", command=add,   width=10, fg="#ffffff",  bg="#273239")
+add_B = Button(top_frame, text="Add", command=add,   width=10, fg="#ffffff",  bg="#273239")
 add_B.grid(row=1,  column=3,   pady=1, padx=5)
 
 
-destination_label = Label(root,  text="Destination",font = my_font, bg="#ffffff",pady=10)
+destination_label = Label(top_frame,  text="Destination",font = my_font, bg="#ffffff",pady=10)
 destination_label.grid(row=2,  column=0, pady=5, padx=5)
-destinationText = Entry( root,   width=40,   textvariable=chosenfolder)
-destinationText.grid(row=2,   column=1,     pady=5,  padx=5, columnspan=2)
-browse_B = Button(root, text="Browse", command=pickfolder,   width=10, fg="#ffffff",  bg="#273239")
+destinationText = Entry( top_frame,   width=40,   textvariable=chosenfolder)
+destinationText.grid(row=2,   column=1, pady=5,  padx=5)
+browse_B = Button(top_frame, text="Browse", command=pickfolder,   width=10, fg="#ffffff",  bg="#273239")
 browse_B.grid(row=2,  column=3,   pady=1, padx=5)
 
-listbox = Listbox(root )
-vsb = Scrollbar(root, orient="vertical", command=listbox.yview)
-vsb.grid(row=0, column=1, sticky='ns')
-listbox.configure(yscrollcommand=vsb.set)
+listbox = Listbox(middle_frame, width=70)
+listbox.grid(column=0, row=3, columnspan=5,padx=10, sticky=W+E)
+yscroll = Scrollbar(command=listbox.yview, orient=VERTICAL)
+yscroll.grid(row=3, column=5, sticky='ns')
+listbox.configure(yscrollcommand=yscroll.set)
+xscroll = Scrollbar(command=listbox.xview, orient=HORIZONTAL)
+xscroll.grid(row=4, column=0, columnspan=5, padx=10, pady=10, sticky=W+E)
+listbox.configure(xscrollcommand=xscroll.set)
 
-downloadqueue = []
-listbox.grid(column=0, row=3, columnspan=6)
-delBtn = Button(root, text = "delete", command = lambda listbox=listbox: listbox.delete(ANCHOR)) 
-delBtn.grid(row=5,column=1,pady=3,padx=3) 
-Download_B = Button(root, text="Download", command=startDownload,    width=20, fg="#ffffff",   bg="#273239")
+
+Download_B = Button(bottom_frame, text="Download", command=startDownload,    width=20, fg="#ffffff",   bg="#273239")
 Download_B.grid(row=5,column=2,pady=3,padx=3)
-# my_font = tkfont.Font(family = "Helvetica", size = 18,weight = "bold")
-# label1 = Label(root,text = "Enter URL",width = 10,fg = "#273239", bg = "#ffffff")
-# label1.config(font = my_font)
-# label1.pack(side=TOP,fill=BOTH,pady=20)
-# url=Entry(root, font=("veranda",18),justify=CENTER)
-# url.pack(side=TOP,fill=X,padx=30)
-# Download_B = Button(root,text="Download",font=("verdana",18),fg = "white",bg = "#273239",relief='ridge',command=startDownload)
-# Download_B.pack(side=TOP,pady=20)
-m_font = tkfont.Font(family = "Helvetica", size = 10)
-title_label = Label(root,width=15, text="Title fjdsjfldsjf fmdklfjlkds ndskfdsklfj",font = m_font, bg="#ffffff",pady=5)
-title_label.grid(row=6, column=0, pady=5,  padx=5, sticky=W)
-per_com = Label(root, text="",font = m_font, bg="#ffffff")
-per_com.grid(row=6, column=2, pady=5,  padx=5)
-byte_com = Label(root, text="",font = m_font, bg="#ffffff")
-byte_com.grid(row=6, column=3, pady=5,  padx=5)
+
+m_font = tkfont.Font(family = "verdana", size = 18, weight="bold")
+title_label = Label(bottom2_frame,font = my_font , text="Title1", bg="#fff")
+title_label.grid(row=0, column=0, padx=10, pady=10)
+per_com = Label(bottom2_frame,font = my_font , text="Title2", bg="#fff")
+per_com.grid(row=0, column=1, padx=10, pady=10)
+byte_com = Label(bottom2_frame,font = my_font , text="Title", bg="#fff")
+byte_com.grid(row=0, column=2, padx=10, pady=10)
+byte_com = Label(bottom2_frame,font = my_font , text="Title4", bg="#fff")
+byte_com.grid(row=0, column=3, padx=10, pady=10)
+byte_com = Label(bottom2_frame,font = my_font , text="Title5", bg="#fff")
+byte_com.grid(row=0, column=5, padx=10, pady=10)
 root.mainloop()
