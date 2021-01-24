@@ -8,6 +8,7 @@ from tkinter.filedialog import *
 from tkinter.messagebox import *
 import tkinter.font as tkfont
 from threading import *
+import subprocess
 from tkinter import ttk 
 import ffmpeg
 
@@ -36,15 +37,6 @@ def updateProgress(chunk, file_handle, bytes_remaining):
     progress.config(text=f'{per:.2f} %')
     size.config(text=f'{file_downloaded/(1024*1024):.2f}/{file_size/(1024*1024):.2f} mb')
 
-def merger(self):
-    lin = str(self.link.title).rstrip()
-    lin2 = (lin+'.mp4')
-    subprocess.run(f'ffmpeg -i video.mp4 -i audio.mp4 -c copy "{lin2}"', shell=True)
-    os.remove('video.mp4')
-    os.remove('audio.mp4')
-    print('Done....\n')
-
-
 
 def getVideo():
     global file_size
@@ -59,22 +51,36 @@ def getVideo():
             Download_B.config(state=DISABLED)
             path_to_save_video = location.get()
             if path_to_save_video is None:
-                showinfo("Error","Invalid Path")
+                showinfo("Invalid Path")
                 return
-            tube = YouTube(url, on_progress_callback=updateProgress)
+            tube = YouTube(url)
             index = choices.index(res)
             print(index)
             yt = tube.streams
             if index < 7:
-                print('Donwloading yt file...\n')
-                vi = yt.streams.filter(res=res,subtype="mp4").download(path_to_save_video)
-                print('Video file downloaded... Now Trying download Audio file..\n')
-                au = yt.streams.get_audio_only().download(path_to_save_video)
-                print('Both Downloaded')
-                print(vi,au)
-
+                vi = tube.streams.filter(res=res, adaptive=True, subtype="mp4").first()
+                file_size = vi.filesize
+                vi.download(path_to_save_video,filename='video')
+                au = tube.streams.get_audio_only()
+                file_size = au.filesize
+                au.download(path_to_save_video,filename='audio')
+                print("Done")
+                lin = str(vi.title).rstrip()
+                lin2 = (lin+'.mp4')
+                subprocess.run(f'ffmpeg -i video.mp4 -i audio.mp4 -c copy "{lin2}"', shell=True)
+                os.remove('video.mp4')
+                os.remove('audio.mp4')
+                print('Done merging')
             else:
-                yt.streams.filter(only_audio=True, abr=res)
+                tube.streams.filter(only_audio=True, abr=res)
+
+
+            # if yt is None:
+            #     yt = tube.streams.first().download(path_to_save_video)
+            
+            # duration.config(text=convert(tube.length))
+            # typ.config(text=yt.type)
+            # quality.config(text=res)
             # caption = source.captions.get_by_language_code('en')
             # caption_convert_to_srt =(en_caption.generate_srt_captions())
             caption = tube.captions['en']
@@ -96,7 +102,9 @@ def getVideo():
 
 def startDownload():
     if downloadqueue == []:
-        info.config(text="Error")
+        info.config(text="Download Queue is Empty")
+    elif not location.get():
+        info.config(text="Choose downloading directory")
     else:
         thread = Thread(target=getVideo)
         thread.start()
@@ -142,7 +150,6 @@ if __name__=='__main__':
     root.config(background="#ffffff")
     video_Link = StringVar()
     location = StringVar()
-
 
     top_frame = Frame(root,bg="#ffffff")
     middle_frame = Frame(root,bg="#ffffff")
