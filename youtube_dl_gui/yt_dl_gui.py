@@ -3,6 +3,7 @@ import sys
 import os
 import re
 from pytube import YouTube
+from pytube import Playlist
 from tkinter import *
 from tkinter import ttk
 from tkinter.filedialog import *
@@ -56,7 +57,6 @@ def getVideo():
     while not downloadqueue == []:
         url = downloadqueue.pop()
         res = resolution.pop()
-        listbox.activate(0)
         try:
             downloadBtn.config(text=f'Downloading {i+1} out of {task}')
             downloadBtn.config(state=DISABLED)
@@ -80,20 +80,22 @@ def getVideo():
                         yt.download(path_to_save_video)
                     else:
                         alert.config(text="Downloading dash video")
+                        video_name = 'video'+str(i)
+                        audio_name = 'audio'+str(i)
                         file_size = vi.filesize
-                        vi.download(path_to_save_video, filename='video')
+                        vi.download(path_to_save_video, filename=video_name)
                         au = tube.streams.get_audio_only()
                         file_size = au.filesize
                         alert.config(text="Downloading dash audio")
-                        au.download(path_to_save_video, filename='audio')
-                        lin = str(vi.title).rstrip()
-                        lin2 = (lin+'.mp4')
+                        au.download(path_to_save_video, filename=audio_name)
+                        output_name = str(vi.title).rstrip()+'.mp4'
+                        video_name += '.mp4'
+                        audio_name += '.mp4'
                         alert.config(text="Merging")
-                        subprocess.run(
-                            f'ffmpeg -i video.mp4 -i audio.mp4 -c copy "{lin2}"', shell=True)
+                        subprocess.run(f'ffmpeg -i "{video_name}" -i "{audio_name}" -c copy "{output_name}"', shell=True)
                         alert.config(text="Deleting temp files")
-                        os.remove('video.mp4')
-                        os.remove('audio.mp4')
+                        os.remove(video_name)
+                        os.remove(audio_name)
                 else:
                     alert.config(text="Progressive stream found for given data")
                     file_size = vi.filesize
@@ -123,6 +125,7 @@ def getVideo():
         i+1
     downloadBtn.config(text="Download")
     downloadBtn.config(state=NORMAL)
+    destinationText.delete(0, END)
     alert.config(text="Thank you for using this script")
     duration.config(text="")
     views.config(text="")
@@ -200,7 +203,7 @@ if __name__ == '__main__':
     message_frame.grid(row=6)
     info_frame.grid(row=7)
 
-    btnFont = tkfont.Font(family="Helvetica", size=12)
+    btnFont = tkfont.Font(family="Helvetica", size=12, weight="bold")
     link_label = Label(entry_frame, text="Video url",
                        font=btnFont, bg="#fff", pady=10)
     link_label.grid(row=1, column=0, pady=5)
@@ -210,7 +213,7 @@ if __name__ == '__main__':
                                 width=7, background="#273239")
     monthchoosen.place(x=334, y=15)
     monthchoosen.current(3)
-    addBtn = Button(entry_frame, text="Add", command=addUrl,
+    addBtn = Button(entry_frame, text="Add", command=addUrl,relief=FLAT,
                    width=10, fg="#fff",  bg="#273239",	
 activebackground="#666", activeforeground="#fff")
     addBtn.grid(row=1,  column=3,   pady=1,)
@@ -219,7 +222,7 @@ activebackground="#666", activeforeground="#fff")
     destination_label.grid(row=2,  column=0, pady=5, padx=5)
     destinationText = Entry(entry_frame,   width=40,   textvariable=location)
     destinationText.grid(row=2,   column=1, pady=5,  padx=5)
-    folderBtn = Button(entry_frame, text="Browse", command=pickfolder,
+    folderBtn = Button(entry_frame, text="Browse",relief=FLAT, command=pickfolder,
                       width=10, fg="#fff",  bg="#273239",	
 activebackground="#666", activeforeground="#fff")
     folderBtn.grid(row=2,  column=3,   pady=1, padx=5)
@@ -233,7 +236,7 @@ activebackground="#666", activeforeground="#fff")
     xscroll.grid(row=4, column=0, columnspan=5, padx=10, pady=10, sticky=W+E)
     listbox.configure(xscrollcommand=xscroll.set)
 
-    downloadBtn = Button(message_frame, text="Download",font=("Agency FB",10),relief='ridge', command=startDownload,
+    downloadBtn = Button(message_frame, text="Download",font=("Agency FB",10),relief=FLAT, command=startDownload,
                         width=20, fg="#fff", bg="#273239",	
 activebackground="#666", activeforeground="#fff")
     downloadBtn.grid(row=0, column=2, pady=10, padx=3)
@@ -243,14 +246,14 @@ activebackground="#666", activeforeground="#fff")
     alert.grid(row=1, column=2)
 
     infoFont = tkfont.Font(family="Helvetica", size=10)
-    views = Label(info_frame, width=10, font=infoFont, text="", bg="#fff")
+    views = Label(info_frame, width=5, font=infoFont, text="", bg="#fff")
     views.grid(row=1, column=0, padx=10, pady=10)
-    quality = Label(info_frame, width=10, font=infoFont, text="", bg="#fff")
+    quality = Label(info_frame, width=5, font=infoFont, text="", bg="#fff")
     quality.grid(row=1, column=1, padx=10, pady=10)
-    duration = Label(info_frame, width=10, font=infoFont, text="", bg="#fff")
+    duration = Label(info_frame, width=5, font=infoFont, text="", bg="#fff")
     duration.grid(row=1, column=2, padx=10, pady=10)
     progress = Label(info_frame, width=10, font=infoFont, text="", bg="#fff")
     progress.grid(row=1, column=3, padx=10, pady=10)
-    size = Label(info_frame, width=10, font=infoFont, text="", bg="#fff")
+    size = Label(info_frame, width=20, font=infoFont, text="", bg="#fff")
     size.grid(row=1, column=5, padx=10, pady=10)
     root.mainloop()
