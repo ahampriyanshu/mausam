@@ -1,9 +1,9 @@
 #!/usr/bin/python3
-import sys
 import os
-import re
+import sys
 from pytube import YouTube
 from pytube import Playlist
+import pytube
 from tkinter import *
 from tkinter import ttk
 from tkinter.filedialog import *
@@ -13,15 +13,6 @@ from threading import *
 import subprocess
 import ffmpeg
 import math
-
-
-regex = re.compile(
-    r'^(?:http|ftp)s?://'
-    r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|'
-    r'localhost|'
-    r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'
-    r'(?::\d+)?'
-    r'(?:/?|[/?]\S+)$', re.IGNORECASE)
 
 
 file_size = 0
@@ -134,38 +125,6 @@ def getVideo():
     size.config(text="")
 
 
-
-def pickfolder():
-    folderBtn.config(bg="#273239")
-    filename = askdirectory()
-    location.set(filename)
-
-
-def validateUrl():
-    addBtn.config(text="Adding...")
-    addBtn.config(state=DISABLED)
-    link = linkText.get()
-    alert.config(text="Validating given url")
-    try:
-        re.match(regex, link)
-        if link in downloadqueue:
-            alert.config(text="Task already exist")
-        else:
-            alert.config(text="Fetching details")
-            listbox.insert(END, YouTube(link).title)
-            downloadqueue.append(link)
-            resolution.append(monthchoosen.get())
-            linkText.delete(0, END)
-            alert.config(text="Added successfully")
-    except Exception as e:
-        print(e)
-        alert.config(text="No data found for given url")
-    finally:
-        monthchoosen.current(3)
-        addBtn.config(text="Add")
-        addBtn.config(state=NORMAL)
-
-
 def startDownload():
     if downloadqueue == []:
         alert.config(text="Download Queue is Empty")
@@ -178,10 +137,52 @@ def startDownload():
         thread.start()
 
 
+def validateUrl():
+    addBtn.config(text="Adding...")
+    addBtn.config(state=DISABLED)
+    link = linkText.get()
+    alert.config(text="Validating given url")
+    try:
+        alert.config(text="Fetching details")
+        listbox.insert(END, Playlist(link).title)
+        downloadqueue.append(link)
+        resolution.append(monthchoosen.get())
+        linkText.delete(0, END)
+        alert.config(text="Added successfully")
+    except KeyError:
+        listbox.insert(END, YouTube(link).title)
+        
+    except pytube.exceptions.RegexMatchError :
+        print('The Regex pattern did not return any matches for the video')
+
+    except (pytube.exceptions.MembersOnly,pytube.exceptions.RecordingUnavailable,pytube.exceptions.LiveStreamError):
+        print ('An extraction error occurred for the video')
+
+    except (pytube.exceptions.ExtractError, pytube.exceptions.HTMLParseError ):
+        print ('An extraction error occurred for the video')
+
+    except (pytube.exceptions.VideoPrivate, pytube.exceptions.VideoRegionBlocked, pytube.exceptions.VideoUnavailable):
+         print('The following video is unavailable')
+
+    except Exception as e:
+        print(e)
+        alert.config(text="Check your internet connection")
+    finally:
+        monthchoosen.current(3)
+        addBtn.config(text="Add")
+        addBtn.config(state=NORMAL)
+
+
 def addUrl():
     addBtn.config(bg="#273239")
     thread = Thread(target=validateUrl)
     thread.start()
+
+
+def pickfolder():
+    folderBtn.config(bg="#273239")
+    filename = askdirectory()
+    location.set(filename)
 
 
 if __name__ == '__main__':
@@ -203,7 +204,7 @@ if __name__ == '__main__':
     message_frame.grid(row=6)
     info_frame.grid(row=7)
 
-    btnFont = tkfont.Font(family="Helvetica", size=12, weight="bold")
+    btnFont = tkfont.Font(family="Helvetica", size=12)
     link_label = Label(entry_frame, text="Video url",
                        font=btnFont, bg="#fff", pady=10)
     link_label.grid(row=1, column=0, pady=5)
