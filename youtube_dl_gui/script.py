@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 import os
 import sys
+import math
+import subprocess
+from threading import *
 from pytube import YouTube
 from pytube import Playlist
 import pytube
@@ -9,10 +12,7 @@ from tkinter import ttk
 from tkinter.filedialog import *
 from tkinter.messagebox import *
 import tkinter.font as tkfont
-from threading import *
-import subprocess
 import ffmpeg
-import math
 
 
 file_size = 0
@@ -20,7 +20,7 @@ downloadqueue = []
 resolution = []
 symbols = ['', ' K', ' M', ' B']
 choices = ("2160p", "1440p", "1080p", "720p", "360p",
-           "240p", "144p", "160kbps", "128kbps", "50kbps")
+           "240p", "144p", "160kbps", "128kbps", "70kbps", "50kbps")
 
 
 def getViews(views):
@@ -40,7 +40,16 @@ def updateProgress(chunk, file_handle, bytes_remaining):
     percentage = (file_downloaded/file_size)*100
     progress.config(text=f'{percentage:.2f} %')
     size.config(
-        text=f'{file_downloaded/(1024*1024):.2f}/{file_size/(1024*1024):.2f} mb')
+        text=f'{file_downloaded/(1024*1024):.2f}/{file_size/(1024*1024):.2f} MB')
+
+
+def mergeFile(video_name, audio_name, output_name):
+    alert.config(text="Merging video and audio")
+    subprocess.run(
+        f'ffmpeg -i "{video_name}" -i "{audio_name}" -c copy "{output_name}"', shell=True)
+    alert.config(text="Deleting temp files")
+    os.remove(video_name)
+    os.remove(audio_name)
 
 
 def getVideo():
@@ -55,7 +64,8 @@ def getVideo():
             downloadBtn.config(text=f'Downloading {i+1} out of {task}')
             path_to_save_video = location.get()
             if path_to_save_video is None:
-                downloadBtn.config(text="Invalid path! downloading in the directory")
+                downloadBtn.config(
+                    text="Invalid path! downloading in the directory")
                 path_to_save_video = ""
             tube = YouTube(url, on_progress_callback=updateProgress)
             duration.config(text=getDuration(tube.length))
@@ -74,7 +84,7 @@ def getVideo():
                         file_size = yt.filesize
                         yt.download(path_to_save_video)
                     else:
-                        alert.config(text="Downloading video file")
+                        alert.config(text=f'Downloading video in {res}')
                         video_name = 'video'+str(i)
                         audio_name = 'audio'+str(i)
                         file_size = vi.filesize
@@ -83,25 +93,22 @@ def getVideo():
                         file_size = au.filesize
                         alert.config(text="Now downloading audio file")
                         au.download(path_to_save_video, filename=audio_name)
-                        output_name = str(vi.title).rstrip()+'.mp4'
+                        output_name = str(vi.default_filename).rstrip()+'.mp4'
                         video_name += '.mp4'
                         audio_name += '.mp4'
-                        alert.config(text="Merging video and audio")
-                        subprocess.run(
-                            f'ffmpeg -i "{video_name}" -i "{audio_name}" -c copy "{output_name}"', shell=True)
-                        alert.config(text="Deleting temp files")
-                        os.remove(video_name)
-                        os.remove(audio_name)
+                        mergeThread = Thread(target=mergeFile, args=[
+                                             video_name, audio_name, output_name])
+                        mergeThread.start()
                 else:
                     alert.config(
                         text=f'Downloading video in {res}')
                     file_size = vi.filesize
                     vi.download(path_to_save_video)
             else:
-                au = tube.streams.filter(only_audio=True, abr=res)
+                au = tube.streams.filter(only_audio=True, abr=res).first()
                 if au is None:
                     alert.config(
-                       text=f'No match found for {res}! Downloading in 128kbps instead')
+                        text=f'No match found for {res}! Downloading in 128kbps instead')
                     au = tube.streams.get_audio_only()
                     file_size = au.filesize
                     au.download(path_to_save_video)
@@ -116,13 +123,13 @@ def getVideo():
                      'w').write(caption.generate_srt_captions())
         except Exception as e:
             print(e)
-        else:
+        finally:
             alert.config(text="Video Downloaded Successfully")
-        listbox.delete(END)
-        i+1
+            listbox.delete(END)
+            i+1
     downloadBtn.config(text="Download")
     downloadBtn.config(state=NORMAL)
-    destinationText.delete(0, END)
+    folderText.delete(0, END)
     alert.config(text="Thank you for using this script")
     duration.config(text="")
     views.config(text="")
@@ -133,14 +140,14 @@ def getVideo():
 
 def startDownload():
     if downloadqueue == []:
-        alert.config(text="Download queue is empty")
+        alert.config(text="Download queue is empty !")
         addBtn.config(bg="red")
     elif not location.get():
-        alert.config(text="Choose valid file path")
+        alert.config(text="Choose valid folder path")
         folderBtn.config(bg="red")
     else:
-        thread = Thread(target=getVideo)
-        thread.start()
+        downloadThread = Thread(target=getVideo)
+        downloadThread.start()
 
 
 def insertQueue(url, quality):
@@ -201,8 +208,8 @@ def validateUrl():
 
 def addUrl():
     addBtn.config(bg="#273239")
-    thread = Thread(target=validateUrl)
-    thread.start()
+    addThread = Thread(target=validateUrl)
+    addThread.start()
 
 
 def pickfolder():
@@ -231,29 +238,26 @@ if __name__ == '__main__':
     info_frame.grid(row=7)
 
     btnFont = tkfont.Font(family="Helvetica", size=12)
-    link_label = Label(entry_frame, text="Enter url",
-                       font=btnFont, bg="#fff", pady=10)
-    link_label.grid(row=1, column=0, pady=5)
+    urlLabel = Label(entry_frame, text="Enter url",
+                     font=btnFont, bg="#fff", pady=10).grid(row=1, column=0, pady=5)
     urlText = Entry(entry_frame, width=29)
-    urlText.place(x=80, y=15)
+    urlText.place(x=93, y=15)
     monthchoosen = ttk.Combobox(entry_frame, state="readonly",  values=choices,
                                 width=7, background="#273239")
-    monthchoosen.place(x=334, y=15)
+    monthchoosen.place(x=345, y=15)
     monthchoosen.current(3)
     addBtn = Button(entry_frame, text="Add", command=addUrl, relief=FLAT,
                     width=10, fg="#fff",  bg="#273239",
                     activebackground="#666", activeforeground="#fff")
     addBtn.grid(row=1,  column=3,   pady=1,)
-    destination_label = Label(
-        entry_frame,  text="Enter Path", font=btnFont, bg="#fff", pady=10)
-    destination_label.grid(row=2,  column=0, pady=5, padx=5)
-    destinationText = Entry(entry_frame,   width=40,   textvariable=location)
-    destinationText.grid(row=2,   column=1, pady=5,  padx=5)
+    folderLabel = Label(
+        entry_frame,  text="Enter Path", font=btnFont, bg="#fff", pady=10).grid(row=2,  column=0, pady=5, padx=5)
+    folderText = Entry(entry_frame,   width=40,   textvariable=location)
+    folderText.grid(row=2,   column=1, pady=5,  padx=5)
     folderBtn = Button(entry_frame, text="Browse", relief=FLAT, command=pickfolder,
                        width=10, fg="#fff",  bg="#273239",
                        activebackground="#666", activeforeground="#fff")
     folderBtn.grid(row=2,  column=3,   pady=1, padx=5)
-
     listbox = Listbox(listbox_frame, width=70)
     listbox.grid(column=0, row=3, columnspan=5, padx=10, sticky=W+E)
     yscroll = Scrollbar(command=listbox.yview, orient=VERTICAL)
@@ -271,13 +275,12 @@ if __name__ == '__main__':
     alert = Label(message_frame, text="",
                   width=60, font=alertFont, bg="#fff", pady=10)
     alert.grid(row=1, column=2)
-
     infoFont = tkfont.Font(family="Helvetica", size=10)
-    views = Label(info_frame, width=5, font=infoFont, text="", bg="#fff")
+    views = Label(info_frame, width=15, font=infoFont, text="", bg="#fff")
     views.grid(row=1, column=0, padx=10, pady=10)
-    quality = Label(info_frame, width=5, font=infoFont, text="", bg="#fff")
+    quality = Label(info_frame, width=8, font=infoFont, text="", bg="#fff")
     quality.grid(row=1, column=1, padx=10, pady=10)
-    duration = Label(info_frame, width=5, font=infoFont, text="", bg="#fff")
+    duration = Label(info_frame, width=8, font=infoFont, text="", bg="#fff")
     duration.grid(row=1, column=2, padx=10, pady=10)
     progress = Label(info_frame, width=10, font=infoFont, text="", bg="#fff")
     progress.grid(row=1, column=3, padx=10, pady=10)
