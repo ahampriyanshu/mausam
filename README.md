@@ -1,15 +1,12 @@
-# scripts_101
-
-* automating some boring stuff
 
 ## [install_script](/linux)
 
-## [youtube-dl-gui](/youtube_dl_gui)
+## [youtube-dl-gui](youtube_dl_gui)
 
-## [spot-dl-gui](/spot-dl_gui)
+## [spot-dl-gui](scripts_101/tree/master/spot_dl_gui)
 
-## [science](/science)
+## [science](https://github.com/ahampriyanshu/scripts_101/tree/master/science)
 
-## [maths](/maths)
+## [maths](tree/master/maths)
 
 
