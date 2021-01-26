@@ -1,12 +1,12 @@
 
-## [install_script](/linux)
+## [install_script](install_script)
 
 ## [youtube-dl-gui](youtube_dl_gui)
 
-## [spot-dl-gui](scripts_101/tree/master/spot_dl_gui)
+## [spot-dl-gui](spot_dl_gui)
 
-## [science](https://github.com/ahampriyanshu/scripts_101/tree/master/science)
+## [science](science)
 
-## [maths](tree/master/maths)
+## [maths](maths)
 
 
