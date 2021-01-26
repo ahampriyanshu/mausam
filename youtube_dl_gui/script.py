@@ -12,7 +12,6 @@ from tkinter import ttk
 from tkinter.filedialog import *
 from tkinter.messagebox import *
 import tkinter.font as tkfont
-import ffmpeg
 
 
 file_size = 0
@@ -44,20 +43,25 @@ def updateProgress(chunk, file_handle, bytes_remaining):
 
 
 def getVideo():
+    downloadBtn.config(state=DISABLED)
     global file_size
     i = 0
     task = len(downloadqueue)
-    downloadBtn.config(state=DISABLED)
+    filePath = askdirectory()
+    if filePath is None:
+        downloadBtn.config(text="Invalid path! downloading in the directory")
+        return
+    operating_system = platform.system()
+    ffmpeg = 'ffmpeg'
+    if operating_system == 'Windows':
+        ffmpeg = 'C:\ffmpeg\bin\ffmpeg.exe'
+    elif operating_system == 'Darwin':
+        ffmpeg = '/usr/local/bin/ffmpeg'
     while not downloadqueue == []:
         url = downloadqueue.pop()
         res = resolution.pop()
         try:
             downloadBtn.config(text=f'Downloading {i+1} out of {task}')
-            path_to_save_video = location.get()
-            if path_to_save_video is None:
-                downloadBtn.config(
-                    text="Invalid path! downloading in the directory")
-                path_to_save_video = ""
             tube = YouTube(url, on_progress_callback=updateProgress)
             duration.config(text=getDuration(tube.length))
             views.config(text=getViews(float(tube.views)))
@@ -73,27 +77,29 @@ def getVideo():
                             text=f'No match found for {res}! Downloading 720p instead')
                         yt = tube.streams.first()
                         file_size = yt.filesize
-                        yt.download(path_to_save_video)
+                        yt.download(filePath)
                     else:
                         alert.config(text=f'Downloading video in {res}')
                         file_size = vi.filesize
-                        vi.download(path_to_save_video, filename='video')
+                        vi.download(filePath, filename='video')
+                        alert.config(text="Now downloading audio file")
                         au = tube.streams.get_audio_only()
                         file_size = au.filesize
-                        alert.config(text="Now downloading audio file")
-                        au.download(path_to_save_video, filename='audio')
-                        output_name = str(vi.default_filename).rstrip()+'.mp4'
+                        au.download(filePath, filename='audio')
+                        outputVideo =filePath+str(vi.default_filename)
+                        inputVideo = filePath+'video.mp4'
+                        inputAudio = filePath+'audio.mp4'
                         alert.config(text="Merging video and audio")
                         subprocess.run(
-                            f'ffmpeg -i video.mp4 -i audio.mp4 -c copy "{output_name}"', shell=True)
+                            f'"{ffmpeg}" -i "{inputVideo}" -i "{inputAudio}" -c copy "{outputVideo}"', shell=True)
                         alert.config(text="Deleting temp files")
-                        os.remove('video.mp4')
-                        os.remove('audio.mp4')
+                        os.remove(inputVideo)
+                        os.remove(inputAudio)
                 else:
                     alert.config(
                         text=f'Downloading video in {res}')
                     file_size = vi.filesize
-                    vi.download(path_to_save_video)
+                    vi.download(filePath)
             else:
                 au = tube.streams.filter(only_audio=True, abr=res).first()
                 if au is None:
@@ -101,11 +107,11 @@ def getVideo():
                         text=f'No match found for {res}! Downloading in 128kbps instead')
                     au = tube.streams.get_audio_only()
                     file_size = au.filesize
-                    au.download(path_to_save_video)
+                    au.download(filePath)
                 else:
                     alert.config(text=f'Downloading audio in {res}')
                     file_size = au.filesize
-                    au.download(path_to_save_video)
+                    au.download(filePath)
 
             caption = tube.captions['en']
             if caption is not None:
@@ -119,7 +125,6 @@ def getVideo():
             i+1
     downloadBtn.config(text="Download")
     downloadBtn.config(state=NORMAL)
-    folderText.delete(0, END)
     alert.config(text="Thank you for using this script")
     duration.config(text="")
     views.config(text="")
@@ -132,9 +137,6 @@ def startDownload():
     if downloadqueue == []:
         alert.config(text="Download queue is empty !")
         addBtn.config(bg="red")
-    elif not location.get():
-        alert.config(text="Choose valid folder path")
-        folderBtn.config(bg="red")
     else:
         downloadThread = Thread(target=getVideo)
         downloadThread.start()
@@ -155,7 +157,7 @@ def validateUrl():
     addBtn.config(text="Adding...")
     addBtn.config(state=DISABLED)
     url = urlText.get()
-    quality = monthchoosen.get()
+    quality = optedResolution.get()
     alert.config(text="Validating url")
     try:
         playlist = Playlist(url)
@@ -188,7 +190,7 @@ def validateUrl():
         print(e)
         alert.config(text="Unknown Error! maybe your internet connection")
     finally:
-        monthchoosen.current(3)
+        optedResolution.current(3)
         urlText.delete(0, END)
         addBtn.config(text="Add")
         addBtn.config(state=NORMAL)
@@ -200,12 +202,6 @@ def addUrl():
     addBtn.config(bg="#273239")
     addThread = Thread(target=validateUrl)
     addThread.start()
-
-
-def pickfolder():
-    folderBtn.config(bg="#273239")
-    filename = askdirectory()
-    location.set(filename)
 
 
 if __name__ == '__main__':
@@ -228,26 +224,16 @@ if __name__ == '__main__':
     info_frame.grid(row=7)
 
     btnFont = tkfont.Font(family="Helvetica", size=12)
-    urlLabel = Label(entry_frame, text="Enter url",
-                     font=btnFont, bg="#fff", pady=10).grid(row=1, column=0, pady=5)
-    urlText = Entry(entry_frame, width=29)
-    urlText.place(x=93, y=15)
-    monthchoosen = ttk.Combobox(entry_frame, state="readonly",  values=choices,
+    urlText = Entry(entry_frame, width=50)
+    urlText.grid(row=1, column=1, pady=5)
+    optedResolution = ttk.Combobox(entry_frame, state="readonly",  values=choices,
                                 width=7, background="#273239")
-    monthchoosen.place(x=345, y=15)
-    monthchoosen.current(3)
+    optedResolution.grid(row=2, column=1, pady=5)
+    optedResolution.current(3)
     addBtn = Button(entry_frame, text="Add", command=addUrl, relief=FLAT,
                     width=10, fg="#fff",  bg="#273239",
                     activebackground="#666", activeforeground="#fff")
-    addBtn.grid(row=1,  column=3,   pady=1,)
-    folderLabel = Label(
-        entry_frame,  text="Enter Path", font=btnFont, bg="#fff", pady=10).grid(row=2,  column=0, pady=5, padx=5)
-    folderText = Entry(entry_frame,   width=40,   textvariable=location)
-    folderText.grid(row=2,   column=1, pady=5,  padx=5)
-    folderBtn = Button(entry_frame, text="Browse", relief=FLAT, command=pickfolder,
-                       width=10, fg="#fff",  bg="#273239",
-                       activebackground="#666", activeforeground="#fff")
-    folderBtn.grid(row=2,  column=3,   pady=1, padx=5)
+    addBtn.grid(row=2,  column=3,   pady=1,)
     listbox = Listbox(listbox_frame, width=70)
     listbox.grid(column=0, row=3, columnspan=5, padx=10, sticky=W+E)
     yscroll = Scrollbar(command=listbox.yview, orient=VERTICAL)
