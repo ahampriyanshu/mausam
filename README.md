@@ -2,10 +2,14 @@
 
 * automating some boring stuff
 
-## [Install Script](/linux)
+## [install_script](/linux)
 
-## [Youtube-dl-gui](/youtube_dl_gui)
+## [youtube-dl-gui](/youtube_dl_gui)
 
-## [Science](/science)
+## [spot-dl-gui](/spot-dl_gui)
+
+## [science](/science)
+
+## [maths](/maths)
 
 
