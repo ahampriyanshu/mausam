@@ -43,15 +43,6 @@ def updateProgress(chunk, file_handle, bytes_remaining):
         text=f'{file_downloaded/(1024*1024):.2f}/{file_size/(1024*1024):.2f} MB')
 
 
-def mergeFile(video_name, audio_name, output_name):
-    alert.config(text="Merging video and audio")
-    subprocess.run(
-        f'ffmpeg -i "{video_name}" -i "{audio_name}" -c copy "{output_name}"', shell=True)
-    alert.config(text="Deleting temp files")
-    os.remove(video_name)
-    os.remove(audio_name)
-
-
 def getVideo():
     global file_size
     i = 0
@@ -85,20 +76,19 @@ def getVideo():
                         yt.download(path_to_save_video)
                     else:
                         alert.config(text=f'Downloading video in {res}')
-                        video_name = 'video'+str(i)
-                        audio_name = 'audio'+str(i)
                         file_size = vi.filesize
-                        vi.download(path_to_save_video, filename=video_name)
+                        vi.download(path_to_save_video, filename='video')
                         au = tube.streams.get_audio_only()
                         file_size = au.filesize
                         alert.config(text="Now downloading audio file")
-                        au.download(path_to_save_video, filename=audio_name)
+                        au.download(path_to_save_video, filename='audio')
                         output_name = str(vi.default_filename).rstrip()+'.mp4'
-                        video_name += '.mp4'
-                        audio_name += '.mp4'
-                        mergeThread = Thread(target=mergeFile, args=[
-                                             video_name, audio_name, output_name])
-                        mergeThread.start()
+                        alert.config(text="Merging video and audio")
+                        subprocess.run(
+                            f'ffmpeg -i video.mp4 -i audio.mp4 -c copy "{output_name}"', shell=True)
+                        alert.config(text="Deleting temp files")
+                        os.remove('video.mp4')
+                        os.remove('audio.mp4')
                 else:
                     alert.config(
                         text=f'Downloading video in {res}')

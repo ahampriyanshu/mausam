@@ -1,8 +1,8 @@
-import tkinter as tk
+from tkinter import *
 import tkinter.font as tkFont
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
+    root = Tk()
     app = App(root)
     root.mainloop()
