@@ -115,9 +115,9 @@ def getData():
                         au = tube.streams.get_audio_only()
                         file_size = au.filesize
                         au.download(filePath, filename='audio')
-                        outputVideo =filePath+'/'+str(vi.default_filename)
-                        inputVideo = filePath+'/video.mp4'
-                        inputAudio = filePath+'/audio.mp4'
+                        outputVideo= os.path.join(filePath, vi.default_filename)  
+                        inputVideo = os.path.join(filePath, 'video.mp4')
+                        inputAudio = os.path.join(filePath, 'audio.mp4')
                         alert.config(text="Merging video and audio")
                         ffmpegCmd = subprocess.run(
                             f'"{ffmpeg}" -i "{inputVideo}" -i "{inputAudio}" -c copy -y "{outputVideo}"', shell=True)
@@ -188,7 +188,9 @@ def validateUrl():
     addBtn.config(state=DISABLED)
     addBtn.config(text="Adding...")
     url = urlEntry.get()
+    urlEntry.delete(0, END)
     quality = optedResolution.get()
+    optedResolution.current(3)
     alert.config(text="Validating url")
     try:
         if url in downloadQueue:
@@ -231,13 +233,12 @@ def validateUrl():
     except Exception as e:
         print(e)
         alert.config(text="Unknown Error! maybe your internet connection")
-    finally:
-        optedResolution.current(3)
-        urlEntry.delete(0, END)
-        addBtn.config(text="Add")
-        addBtn.config(state=NORMAL)
-        downloadBtn.config(text="Download")
-        downloadBtn.config(state=NORMAL)
+    else:
+        startDownload()
+    addBtn.config(text="Add")
+    addBtn.config(state=NORMAL)
+    downloadBtn.config(text="Download")
+    downloadBtn.config(state=NORMAL)
 
 
 def addUrl():

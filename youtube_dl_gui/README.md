@@ -1,4 +1,4 @@
-<p align="center"><img src="https://user-images.githubusercontent.com/54521023/105525211-c61e6600-5d06-11eb-9d8c-8397e348a8ae.png"></p>
+<p align="center"><img src="https://github.com/ahampriyanshu/scripts_101/raw/metadata/logo/youtube.png"></p>
 
 <h1 align="center">youtube_dl_gui</h1>
 
@@ -29,7 +29,7 @@ mkdir yt_dl_gui && cd yt_dl_gui
 wget -q https://raw.githubusercontent.com/ahampriyanshu/scripts_101/master/youtube_dl_gui/script.py
 wget -q https://github.com/ahampriyanshu/scripts_101/files/5872404/requirements.txt
 pip3 install -r requirements.txt
-chmod +x setup.sh
+chmod +x script.py
 ./script.py
 ```
 
