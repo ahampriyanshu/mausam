@@ -91,11 +91,12 @@ def getVideo():
                         inputVideo = filePath+'/video.mp4'
                         inputAudio = filePath+'/audio.mp4'
                         alert.config(text="Merging video and audio")
-                        subprocess.run(
+                        ffmpegCmd = subprocess.run(
                             f'"{ffmpeg}" -i "{inputVideo}" -i "{inputAudio}" -c copy "{outputVideo}"', shell=True)
                         alert.config(text="Deleting temp files")
-                        os.remove(inputVideo)
-                        os.remove(inputAudio)
+                        if not ffmpegCmd:
+                            os.remove(inputVideo)
+                            os.remove(inputAudio)
                 else:
                     alert.config(
                         text=f'Downloading video in {res}')
@@ -145,11 +146,9 @@ def startDownload():
 
 def insertQueue(url, quality):
     try:
-        alert.config(text="Adding task to queue")
         listbox.insert(END, YouTube(url).title)
         downloadqueue.append(url)
         resolution.append(quality)
-        alert.config(text="Task Added successfully")
     except Exception as e:
         return e
 
@@ -157,42 +156,44 @@ def insertQueue(url, quality):
 def validateUrl():
     addBtn.config(text="Adding...")
     addBtn.config(state=DISABLED)
-    url = urlText.get()
+    url = urlEntry.get()
     quality = optedResolution.get()
     alert.config(text="Validating url")
     try:
         playlist = Playlist(url)
-        totalVideos = len(playlist.video_urls)
+        alert.config(text="this may take a while")
         downloadBtn.config(state=DISABLED)
+        totalVideos = len(playlist.video_urls)
         videoIndex = 1
         for video in playlist:
             insertQueue(video, quality)
             downloadBtn.config(
                 text=f'Adding {videoIndex} out of {totalVideos}')
             videoIndex += 1
-
     except KeyError:
+        alert.config(text="Adding video to queue")
         insertQueue(url, quality)
 
     except pytube.exceptions.RegexMatchError:
         alert.config(text="Given url doesn't contain valid data")
 
     except (pytube.exceptions.MembersOnly, pytube.exceptions.RecordingUnavailable, pytube.exceptions.LiveStreamError):
-        alert.config(text="Video is either livestream or members-only")
+        alert.config(text="Video is either a livestream or a members-only")
 
     except (pytube.exceptions.ExtractError, pytube.exceptions.HTMLParseError):
-        alert.config(text="Error occured while extracting/parsing data")
+        alert.config(text="Error occured while extracting/parsing the data")
 
     except (pytube.exceptions.VideoPrivate, pytube.exceptions.VideoRegionBlocked, pytube.exceptions.VideoUnavailable):
         alert.config(
-            text="Video is regionally-blocked/unavailable or private-only")
+            text="Video is either regionally-blocked/unavailable or private-only")
 
     except Exception as e:
         print(e)
         alert.config(text="Unknown Error! maybe your internet connection")
     finally:
+        alert.config(text="Task added successfully")
         optedResolution.current(3)
-        urlText.delete(0, END)
+        urlEntry.delete(0, END)
         addBtn.config(text="Add")
         addBtn.config(state=NORMAL)
         downloadBtn.config(text="Download")
@@ -211,8 +212,6 @@ if __name__ == '__main__':
     root.geometry("600x400")
     root.resizable(False, False)
     root.config(background="#fff")
-    video_Link = StringVar()
-    location = StringVar()
 
     url_frame = Frame(root, bg="#fff")
     res_frame = Frame(root, bg="#fff")
@@ -227,17 +226,17 @@ if __name__ == '__main__':
     info_frame.grid(row=7)
 
     btnFont = tkfont.Font(family="Helvetica", size=12)
-    urlText = Entry(url_frame)
-    urlText.grid(row=0, column=0, padx=5, pady=(5, 0), sticky="w")
-    optedResolution = ttk.Combobox(res_frame, state="readonly",  values=choices,
+    urlEntry = Entry(url_frame, width=50)
+    urlEntry.grid(row=1, column=0, padx=10, pady=5)
+    optedResolution = ttk.Combobox(url_frame, state="readonly",  values=choices,
                                 width=7, background="#273239")
-    optedResolution.grid(row=1, column=1, pady=10)
+    optedResolution.grid(row=1, column=3, pady=10)
     optedResolution.current(3)
     addBtn = Button(res_frame, text="Add", command=addUrl, relief=FLAT,
                     width=10, fg="#fff",  bg="#273239",
                     activebackground="#666", activeforeground="#fff")
     addBtn.grid(row=1,  column=3,pady=10,)
-    listbox = Listbox(listbox_frame, width=70)
+    listbox = Listbox(listbox_frame, width=60)
     listbox.grid(column=0, row=3, columnspan=5, padx=10, pady=10, sticky=W+E)
     yscroll = Scrollbar(command=listbox.yview, orient=VERTICAL)
     yscroll.grid(row=3, column=5, sticky='ns')
