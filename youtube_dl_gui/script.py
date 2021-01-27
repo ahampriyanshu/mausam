@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import os
 import sys
-import math
+from math import floor,log10
 import platform
 import subprocess
 from threading import *
@@ -16,16 +16,35 @@ import tkinter.font as tkfont
 
 
 file_size = 0
-downloadqueue = []
+downloadQueue = []
 resolution = []
 symbols = ['', ' K', ' M', ' B']
 choices = ("2160p", "1440p", "1080p", "720p", "360p",
            "240p", "144p", "160kbps", "128kbps", "70kbps", "50kbps")
 
+class Error(Exception):
+    """Base class for other exceptions"""
+    pass
+
+
+class DuplicateUrlError(Error):
+    """Raised when duplicate url is entered"""
+    pass
+
+
+class EmptyStringError(Error):
+    """Raised when an empty string is entered"""
+    pass
+
+
+class MergeError(Error):
+    """Raised when error occurs while merging"""
+    pass
+
 
 def getViews(views):
     millidx = max(0, min(len(symbols)-1,
-                         int(math.floor(0 if views == 0 else math.log10(abs(views))/3))))
+                         int(floor(0 if views == 0 else log10(abs(views))/3))))
 
     return '{:.2f}{} views'.format(views / 10**(3 * millidx), symbols[millidx])
 
@@ -43,11 +62,20 @@ def updateProgress(chunk, file_handle, bytes_remaining):
         text=f'{file_downloaded/(1024*1024):.2f}/{file_size/(1024*1024):.2f} MB')
 
 
-def getVideo():
+def getSrt(tube):
+    try:
+        caption = tube.captions['en']
+    except:
+        return False
+    else:
+        return True
+
+
+def getData():
     downloadBtn.config(state=DISABLED)
     global file_size
     i = 0
-    task = len(downloadqueue)
+    task = len(downloadQueue)
     filePath = askdirectory()
     if filePath is None:
         downloadBtn.config(text="Invalid path! downloading in the directory")
@@ -58,8 +86,8 @@ def getVideo():
         ffmpeg = 'C:\ffmpeg\bin\ffmpeg.exe'
     elif operating_system == 'Darwin':
         ffmpeg = '/usr/local/bin/ffmpeg'
-    while not downloadqueue == []:
-        url = downloadqueue.pop()
+    while not downloadQueue == []:
+        url = downloadQueue.pop()
         res = resolution.pop()
         try:
             downloadBtn.config(text=f'Downloading {i+1} out of {task}')
@@ -92,11 +120,12 @@ def getVideo():
                         inputAudio = filePath+'/audio.mp4'
                         alert.config(text="Merging video and audio")
                         ffmpegCmd = subprocess.run(
-                            f'"{ffmpeg}" -i "{inputVideo}" -i "{inputAudio}" -c copy "{outputVideo}"', shell=True)
+                            f'"{ffmpeg}" -i "{inputVideo}" -i "{inputAudio}" -c copy -y "{outputVideo}"', shell=True)
+                        if ffmpegCmd.returncode:
+                            raise MergeError
                         alert.config(text="Deleting temp files")
-                        if not ffmpegCmd:
-                            os.remove(inputVideo)
-                            os.remove(inputAudio)
+                        os.remove(inputVideo)
+                        os.remove(inputAudio)
                 else:
                     alert.config(
                         text=f'Downloading video in {res}')
@@ -114,20 +143,20 @@ def getVideo():
                     alert.config(text=f'Downloading audio in {res}')
                     file_size = au.filesize
                     au.download(filePath)
-
-            caption = tube.captions['en']
-            if caption is not None:
-                open(tube.title + '.srt',
-                     'w').write(caption.generate_srt_captions())
+            if getSrt(tube):
+                open(tube.default_filename + '.srt',
+                     'w').write(tube.captions['en'].generate_srt_captions())
+            alert.config(text="Download complete")
+        except MergeError:
+            alert.config(text="Unknown Error occured while merging")
         except Exception as e:
             print(e)
+            alert.config(text="Unknown Error occured while downloading")
         finally:
-            alert.config(text="Video Downloaded Successfully")
             listbox.delete(END)
             i+1
     downloadBtn.config(text="Download")
     downloadBtn.config(state=NORMAL)
-    alert.config(text="Thank you for using this script")
     duration.config(text="")
     views.config(text="")
     quality.config(text="")
@@ -136,30 +165,36 @@ def getVideo():
 
 
 def startDownload():
-    if downloadqueue == []:
+    if downloadQueue == []:
         alert.config(text="Download queue is empty !")
         addBtn.config(bg="red")
-    else:
-        downloadThread = Thread(target=getVideo)
-        downloadThread.start()
+        return
+    downloadThread = Thread(target=getData)
+    downloadThread.start()
 
 
 def insertQueue(url, quality):
     try:
         listbox.insert(END, YouTube(url).title)
-        downloadqueue.append(url)
+        downloadQueue.append(url)
         resolution.append(quality)
-    except Exception as e:
-        return e
+    except:
+        alert.config(text="The url doesn't contain valid data")
+    else:
+        alert.config(text="Added Successfully")
 
 
 def validateUrl():
-    addBtn.config(text="Adding...")
     addBtn.config(state=DISABLED)
+    addBtn.config(text="Adding...")
     url = urlEntry.get()
     quality = optedResolution.get()
     alert.config(text="Validating url")
     try:
+        if url in downloadQueue:
+            raise DuplicateUrlError
+        if(not (url and not url.isspace())):
+            raise EmptyStringError
         playlist = Playlist(url)
         alert.config(text="this may take a while")
         downloadBtn.config(state=DISABLED)
@@ -171,8 +206,14 @@ def validateUrl():
                 text=f'Adding {videoIndex} out of {totalVideos}')
             videoIndex += 1
     except KeyError:
-        alert.config(text="Adding video to queue")
+        alert.config(text="Adding task to queue")
         insertQueue(url, quality)
+
+    except EmptyStringError:
+        alert.config(text="Empty String!")
+
+    except DuplicateUrlError:
+        alert.config(text="Task already exist")
 
     except pytube.exceptions.RegexMatchError:
         alert.config(text="Given url doesn't contain valid data")
@@ -191,7 +232,6 @@ def validateUrl():
         print(e)
         alert.config(text="Unknown Error! maybe your internet connection")
     finally:
-        alert.config(text="Task added successfully")
         optedResolution.current(3)
         urlEntry.delete(0, END)
         addBtn.config(text="Add")

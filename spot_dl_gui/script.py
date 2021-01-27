@@ -41,7 +41,7 @@ def startDownload():
 
 
 def addQuery():
-    addBtn.config(bg="#333333")
+    addBtn.config(bg="#008500")
     query = querEntry.get()
     if query in downloadQueue or(not (query and not query.isspace())):
         alert.config(text='task already exists')
@@ -64,7 +64,7 @@ if __name__ == "__main__":
     querEntry.place(x=50, y=30, width=380, height=50)
 
     ft = tkFont.Font(family='Times', size=10)
-    addBtn = Button(root,activeforeground="#ffffff", activebackground="#008500", bg="#008000",
+    addBtn = Button(root,activeforeground="#ffffff", activebackground="#296b28", bg="#008000",
     command=addQuery, font=ft, fg="#ffffff", justify="center", text="Add", relief="flat")
     addBtn.place(x=450, y=30, width=100, height=50)
 
@@ -72,9 +72,9 @@ if __name__ == "__main__":
     listbox.place(x=50, y=110, width=500, height=200)
 
     ft = tkFont.Font(family='Times', size=10)
-    downloadBtn = Button(root,activeforeground="#ffffff", activebackground="#008500",
+    downloadBtn = Button(root,activeforeground="#ffffff", activebackground="#296b28",
     command=startDownload, bg="#008000", font=ft, fg="#ffffff", justify="center", text="Download", relief="flat")
-    downloadBtn.place(x=230, y=340, width=150, height=50)
+    downloadBtn.place(x=200, y=340, width=200, height=50)
 
     ft = tkFont.Font(family='Helvetica', size=10)
     alert = Label(root, font=ft, fg="#333333", justify="center", text="This may take a while")
