@@ -2,6 +2,7 @@
 import os
 import sys
 import math
+import platform
 import subprocess
 from threading import *
 from pytube import YouTube
@@ -86,9 +87,9 @@ def getVideo():
                         au = tube.streams.get_audio_only()
                         file_size = au.filesize
                         au.download(filePath, filename='audio')
-                        outputVideo =filePath+str(vi.default_filename)
-                        inputVideo = filePath+'video.mp4'
-                        inputAudio = filePath+'audio.mp4'
+                        outputVideo =filePath+'/'+str(vi.default_filename)
+                        inputVideo = filePath+'/video.mp4'
+                        inputAudio = filePath+'/audio.mp4'
                         alert.config(text="Merging video and audio")
                         subprocess.run(
                             f'"{ffmpeg}" -i "{inputVideo}" -i "{inputAudio}" -c copy "{outputVideo}"', shell=True)
@@ -207,42 +208,40 @@ def addUrl():
 if __name__ == '__main__':
     root = Tk()
     root.title("Youtube Video Downloader")
-    root.geometry("600x500")
+    root.geometry("600x400")
     root.resizable(False, False)
     root.config(background="#fff")
     video_Link = StringVar()
     location = StringVar()
 
-    entry_frame = Frame(root, bg="#fff")
+    url_frame = Frame(root, bg="#fff")
+    res_frame = Frame(root, bg="#fff")
     listbox_frame = Frame(root, bg="#fff")
     message_frame = Frame(root, bg="#fff")
     info_frame = Frame(root, bg="#fff")
 
-    entry_frame.grid(row=0)
+    url_frame.grid(row=1)
+    res_frame.grid(row=2)
     listbox_frame.grid(row=3)
     message_frame.grid(row=6)
     info_frame.grid(row=7)
 
     btnFont = tkfont.Font(family="Helvetica", size=12)
-    urlText = Entry(entry_frame, width=50)
-    urlText.grid(row=1, column=1, pady=5)
-    optedResolution = ttk.Combobox(entry_frame, state="readonly",  values=choices,
+    urlText = Entry(url_frame)
+    urlText.grid(row=0, column=0, padx=5, pady=(5, 0), sticky="w")
+    optedResolution = ttk.Combobox(res_frame, state="readonly",  values=choices,
                                 width=7, background="#273239")
-    optedResolution.grid(row=2, column=1, pady=5)
+    optedResolution.grid(row=1, column=1, pady=10)
     optedResolution.current(3)
-    addBtn = Button(entry_frame, text="Add", command=addUrl, relief=FLAT,
+    addBtn = Button(res_frame, text="Add", command=addUrl, relief=FLAT,
                     width=10, fg="#fff",  bg="#273239",
                     activebackground="#666", activeforeground="#fff")
-    addBtn.grid(row=2,  column=3,   pady=1,)
+    addBtn.grid(row=1,  column=3,pady=10,)
     listbox = Listbox(listbox_frame, width=70)
-    listbox.grid(column=0, row=3, columnspan=5, padx=10, sticky=W+E)
+    listbox.grid(column=0, row=3, columnspan=5, padx=10, pady=10, sticky=W+E)
     yscroll = Scrollbar(command=listbox.yview, orient=VERTICAL)
     yscroll.grid(row=3, column=5, sticky='ns')
     listbox.configure(yscrollcommand=yscroll.set)
-    xscroll = Scrollbar(command=listbox.xview, orient=HORIZONTAL)
-    xscroll.grid(row=4, column=0, columnspan=5, padx=10, pady=10, sticky=W+E)
-    listbox.configure(xscrollcommand=xscroll.set)
-
     downloadBtn = Button(message_frame, text="Download", font=("Agency FB", 10), relief=FLAT, command=startDownload,
                          width=20, fg="#fff", bg="#273239",
                          activebackground="#666", activeforeground="#fff")
