@@ -43,11 +43,15 @@ def getSong():
             cmd = subprocess.run(f'spotdl "{query}"', shell=True)
             if cmd.returncode:
                 raise DownloadError
+        except PermissionError:
+            alert.config(text="Directory inaccessible")
+        except MemoryError:
+            alert.config(text="Out of memroy")
         except DownloadError:
             alert.config(text="Error occured while downloading")
         except Exception as e:
             print(e)
-            alert.config(text="Unknown Error! maybe your internet connection")
+            alert.config(text="Unknown error, perhaps your internet connection")
         finally:
             alert.config(text="Downloading next track")
         listbox.delete(END)
@@ -81,7 +85,7 @@ def addQuery():
         alert.config(text="Empty String!")
 
     except DuplicateUrlError:
-        alert.config(text="Task already exist")
+        alert.config(text="Task already exists")
     
     except Exception as e:
         print(e)

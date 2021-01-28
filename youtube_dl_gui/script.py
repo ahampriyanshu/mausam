@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import os
 import sys
-from math import floor,log10
+from math import floor, log10
 import platform
 import subprocess
 from threading import *
@@ -21,6 +21,7 @@ resolution = []
 symbols = ['', ' K', ' M', ' B']
 choices = ("2160p", "1440p", "1080p", "720p", "360p",
            "240p", "144p", "160kbps", "128kbps", "70kbps", "50kbps")
+
 
 class Error(Exception):
     """Base class for other exceptions"""
@@ -72,13 +73,14 @@ def getSrt(tube):
 
 
 def getData():
+    addBtn.config(state=DISABLED)
     downloadBtn.config(state=DISABLED)
     global file_size
     i = 0
     task = len(downloadQueue)
     filePath = askdirectory()
     if filePath is None:
-        downloadBtn.config(text="Invalid path! downloading in the directory")
+        downloadBtn.config(text="Directory inaccessible")
         return
     operating_system = platform.system()
     ffmpeg = 'ffmpeg'
@@ -111,11 +113,12 @@ def getData():
                         alert.config(text=f'Downloading video in {res}')
                         file_size = vi.filesize
                         vi.download(filePath, filename='video')
-                        alert.config(text="Now downloading audio file")
+                        alert.config(text="Downloading audio file now")
                         au = tube.streams.get_audio_only()
                         file_size = au.filesize
                         au.download(filePath, filename='audio')
-                        outputVideo= os.path.join(filePath, vi.default_filename)  
+                        outputVideo = os.path.join(
+                            filePath, vi.default_filename)
                         inputVideo = os.path.join(filePath, 'video.mp4')
                         inputAudio = os.path.join(filePath, 'audio.mp4')
                         alert.config(text="Merging video and audio")
@@ -148,15 +151,20 @@ def getData():
                      'w').write(tube.captions['en'].generate_srt_captions())
             alert.config(text="Download complete")
         except MergeError:
-            alert.config(text="Unknown Error occured while merging")
+            alert.config(text="Unknown error occured while merging")
+        except PermissionError:
+            alert.config(text="Directory inaccessible")
+        except MemoryError:
+            alert.config(text="Out of memroy")
         except Exception as e:
             print(e)
-            alert.config(text="Unknown Error occured while downloading")
+            alert.config(text="Unknown error occured while downloading")
         finally:
             listbox.delete(END)
             i+1
     downloadBtn.config(text="Download")
     downloadBtn.config(state=NORMAL)
+    addBtn.config(state=NORMAL)
     duration.config(text="")
     views.config(text="")
     quality.config(text="")
@@ -166,7 +174,7 @@ def getData():
 
 def startDownload():
     if downloadQueue == []:
-        alert.config(text="Download queue is empty !")
+        alert.config(text="Download queue is empty!")
         addBtn.config(bg="red")
         return
     downloadThread = Thread(target=getData)
@@ -179,7 +187,7 @@ def insertQueue(url, quality):
         downloadQueue.append(url)
         resolution.append(quality)
     except:
-        alert.config(text="The url doesn't contain valid data")
+        alert.config(text="The url contain invalid data")
     else:
         alert.config(text="Added Successfully")
 
@@ -198,7 +206,7 @@ def validateUrl():
         if(not (url and not url.isspace())):
             raise EmptyStringError
         playlist = Playlist(url)
-        alert.config(text="this may take a while")
+        alert.config(text="This may take a while")
         downloadBtn.config(state=DISABLED)
         totalVideos = len(playlist.video_urls)
         videoIndex = 1
@@ -215,13 +223,13 @@ def validateUrl():
         alert.config(text="Empty String!")
 
     except DuplicateUrlError:
-        alert.config(text="Task already exist")
+        alert.config(text="Task already exists")
 
     except pytube.exceptions.RegexMatchError:
-        alert.config(text="Given url doesn't contain valid data")
+        alert.config(text="Given url contains invalid data")
 
     except (pytube.exceptions.MembersOnly, pytube.exceptions.RecordingUnavailable, pytube.exceptions.LiveStreamError):
-        alert.config(text="Video is either a livestream or a members-only")
+        alert.config(text="Video is either a livestream or a member-only")
 
     except (pytube.exceptions.ExtractError, pytube.exceptions.HTMLParseError):
         alert.config(text="Error occured while extracting/parsing the data")
@@ -232,7 +240,7 @@ def validateUrl():
 
     except Exception as e:
         print(e)
-        alert.config(text="Unknown Error! maybe your internet connection")
+        alert.config(text="Unknown error! perhaps your internet connection")
     else:
         startDownload()
     addBtn.config(text="Add")
@@ -270,13 +278,13 @@ if __name__ == '__main__':
     urlEntry = Entry(url_frame, width=50)
     urlEntry.grid(row=1, column=0, padx=10, pady=5)
     optedResolution = ttk.Combobox(url_frame, state="readonly",  values=choices,
-                                width=7, background="#273239")
+                                   width=7, background="#273239")
     optedResolution.grid(row=1, column=3, pady=10)
     optedResolution.current(3)
     addBtn = Button(res_frame, text="Add", command=addUrl, relief=FLAT,
                     width=10, fg="#fff",  bg="#273239",
                     activebackground="#666", activeforeground="#fff")
-    addBtn.grid(row=1,  column=3,pady=10,)
+    addBtn.grid(row=1,  column=3, pady=10,)
     listbox = Listbox(listbox_frame, width=60)
     listbox.grid(column=0, row=3, columnspan=5, padx=10, pady=10, sticky=W+E)
     yscroll = Scrollbar(command=listbox.yview, orient=VERTICAL)
