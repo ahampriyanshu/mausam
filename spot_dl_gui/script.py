@@ -8,6 +8,7 @@ import tkinter.font as tkFont
 
 downloadQueue = []
 
+
 class Error(Exception):
     """Base class for other exceptions"""
     pass
@@ -16,6 +17,7 @@ class Error(Exception):
 class DownloadError(Error):
     """Raised when error occurs while downloading"""
     pass
+
 
 class DuplicateUrlError(Error):
     """Raised when duplicate url is entered"""
@@ -29,6 +31,7 @@ class EmptyStringError(Error):
 
 def filterQuery(rawQuery):
     return "'{}'".format(rawQuery)
+
 
 def getSong():
     downloadBtn.config(state=DISABLED)
@@ -53,7 +56,8 @@ def getSong():
             alert.config(text="Error occured while downloading")
         except Exception as e:
             print(e)
-            alert.config(text="Unknown error, perhaps your internet connection")
+            alert.config(
+                text="Unknown error, perhaps your internet connection")
         finally:
             alert.config(text="Downloading complete")
         listbox.delete(END)
@@ -88,15 +92,16 @@ def addQuery():
 
     except DuplicateUrlError:
         alert.config(text="Task already exists")
-    
+
     except Exception as e:
         print(e)
         alert.config(text="Unknown Error!")
 
-    else:        
+    else:
         listbox.insert(END, query)
         downloadQueue.append(query)
         alert.config(text="Task added successfully")
+
 
 if __name__ == "__main__":
     root = Tk()
@@ -104,26 +109,26 @@ if __name__ == "__main__":
     root.geometry("600x450")
     root.resizable(width=False, height=False)
 
-
     ft = tkFont.Font(family='Agency FB', size=14)
-    querEntry = Entry(root, borderwidth="1px", font=ft, fg="#273239", justify="center")
+    querEntry = Entry(root, borderwidth="1px", font=ft,
+                      fg="#273239", justify="center")
     querEntry.place(x=50, y=30, width=380, height=50)
 
     ft = tkFont.Font(family='Agency FB', size=10)
-    addBtn = Button(root,activeforeground="#ffffff", activebackground="#666666", bg="#273239",
-    command=addQuery, font=ft, fg="#ffffff", justify="center", text="Add", relief="flat")
+    addBtn = Button(root, activeforeground="#ffffff", activebackground="#666666", bg="#273239",
+                    command=addQuery, font=ft, fg="#ffffff", justify="center", text="Add", relief="flat")
     addBtn.place(x=450, y=30, width=100, height=50)
 
     listbox = Listbox(root)
     listbox.place(x=50, y=110, width=500, height=200)
 
     ft = tkFont.Font(family='Agency FB', size=10)
-    downloadBtn = Button(root,activeforeground="#ffffff", activebackground="#666666",
-    command=startDownload, bg="#273239", font=ft, fg="#ffffff", justify="center", text="Download", relief="flat")
+    downloadBtn = Button(root, activeforeground="#ffffff", activebackground="#666666",
+                         command=startDownload, bg="#273239", font=ft, fg="#ffffff", justify="center", text="Download", relief="flat")
     downloadBtn.place(x=200, y=340, width=200, height=50)
 
     ft = tkFont.Font(family='Helvetica', size=10)
     alert = Label(root, font=ft, fg="#000000", justify="center", text="")
     alert.place(x=50, y=410, width=500)
-    
+
     root.mainloop()
