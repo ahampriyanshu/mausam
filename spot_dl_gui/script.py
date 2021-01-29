@@ -33,13 +33,15 @@ def filterQuery(rawQuery):
 def getSong():
     downloadBtn.config(state=DISABLED)
     addBtn.config(state=DISABLED)
+    addBtn.config(bg="#273239")
     i = 0
     totalTask = len(downloadQueue)
     while not downloadQueue == []:
-        alert.config(text="Connected to spotify")
+        alert.config(text="Connecting to spotify")
         query = downloadQueue.pop()
         try:
             downloadBtn.config(text=f'Downloading {i+1} out of {totalTask}')
+            alert.config(text="Connection established")
             cmd = subprocess.run(f'spotdl "{query}"', shell=True)
             if cmd.returncode:
                 raise DownloadError
@@ -53,7 +55,7 @@ def getSong():
             print(e)
             alert.config(text="Unknown error, perhaps your internet connection")
         finally:
-            alert.config(text="Downloading next track")
+            alert.config(text="Downloading complete")
         listbox.delete(END)
         downloadBtn.config(text="Download")
         downloadBtn.config(state=NORMAL)

@@ -2,7 +2,6 @@
 import os
 import sys
 from math import floor, log10
-import platform
 import subprocess
 from threading import *
 from pytube import YouTube
@@ -17,9 +16,9 @@ import tkinter.font as tkfont
 
 file_size = 0
 downloadQueue = []
-resolution = []
+resolutionQueue = []
 symbols = ['', ' K', ' M', ' B']
-choices = ("2160p", "1440p", "1080p", "720p", "360p",
+resolutions = ("2160p", "1440p", "1080p", "720p", "360p",
            "240p", "144p", "160kbps", "128kbps", "70kbps", "50kbps")
 
 
@@ -74,6 +73,7 @@ def getSrt(tube):
 
 def getData():
     addBtn.config(state=DISABLED)
+    addBtn.config(bg="#273239")
     downloadBtn.config(state=DISABLED)
     global file_size
     i = 0
@@ -82,22 +82,16 @@ def getData():
     if filePath is None:
         downloadBtn.config(text="Directory inaccessible")
         return
-    operating_system = platform.system()
-    ffmpeg = 'ffmpeg'
-    if operating_system == 'Windows':
-        ffmpeg = 'C:\ffmpeg\bin\ffmpeg.exe'
-    elif operating_system == 'Darwin':
-        ffmpeg = '/usr/local/bin/ffmpeg'
     while not downloadQueue == []:
         url = downloadQueue.pop()
-        res = resolution.pop()
+        res = resolutionQueue.pop()
         try:
             downloadBtn.config(text=f'Downloading {i+1} out of {task}')
             tube = YouTube(url, on_progress_callback=updateProgress)
             duration.config(text=getDuration(tube.length))
             views.config(text=getViews(float(tube.views)))
             quality.config(text=res)
-            index = choices.index(res)
+            index = resolutions.index(res)
             if index < 7:
                 vi = tube.streams.filter(res=res, progressive=True).first()
                 if vi is None:
@@ -123,7 +117,7 @@ def getData():
                         inputAudio = os.path.join(filePath, 'audio.mp4')
                         alert.config(text="Merging video and audio")
                         ffmpegCmd = subprocess.run(
-                            f'"{ffmpeg}" -i "{inputVideo}" -i "{inputAudio}" -c copy -y "{outputVideo}"', shell=True)
+                            f'ffmpeg -i "{inputVideo}" -i "{inputAudio}" -c copy -y "{outputVideo}"', shell=True)
                         if ffmpegCmd.returncode:
                             raise MergeError
                         alert.config(text="Deleting temp files")
@@ -156,8 +150,7 @@ def getData():
             alert.config(text="Directory inaccessible")
         except MemoryError:
             alert.config(text="Out of memroy")
-        except Exception as e:
-            print(e)
+        except:
             alert.config(text="Unknown error occured while downloading")
         finally:
             listbox.delete(END)
@@ -185,7 +178,7 @@ def insertQueue(url, quality):
     try:
         listbox.insert(END, YouTube(url).title)
         downloadQueue.append(url)
-        resolution.append(quality)
+        resolutionQueue.append(quality)
     except:
         alert.config(text="The url contain invalid data")
     else:
@@ -277,7 +270,7 @@ if __name__ == '__main__':
     btnFont = tkfont.Font(family="Helvetica", size=12)
     urlEntry = Entry(url_frame, width=50)
     urlEntry.grid(row=1, column=0, padx=10, pady=5)
-    optedResolution = ttk.Combobox(url_frame, state="readonly",  values=choices,
+    optedResolution = ttk.Combobox(url_frame, state="readonly",  values=resolutions,
                                    width=7, background="#273239")
     optedResolution.grid(row=1, column=3, pady=10)
     optedResolution.current(3)

@@ -15,7 +15,7 @@ sudo mv yt_dl_gui /usr/bin
 
 ## Windows
 
-* Download the .exe file by clicking [here]()
+* Download the executable file by clicking [here]()
 
 ## Mac
 
