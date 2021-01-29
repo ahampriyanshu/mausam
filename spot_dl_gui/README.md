@@ -2,7 +2,7 @@
 
 <h1 align="center">spot_dl_gui</h1>
 
-<p align="center"><img src="https://raw.githubusercontent.com/ahampriyanshu/scripts_101/metadata/snaps/yt_linux.png"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/ahampriyanshu/scripts_101/metadata/snaps/spot_linux.png"></p>
 
 # Installation
 
